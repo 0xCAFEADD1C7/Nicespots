@@ -7,7 +7,7 @@ public class MapApiClient {
 	private static final String mapkey = "AIzaSyAdbZcM0GSwNMuuua7FYCPRZv-LBe3QrTc";
 	
 		/**
-		 * 
+		 * Return the address of the specific location
 		 * @param lat
 		 * @param lon
 		 * @return XXX RoadName, code city, Country
