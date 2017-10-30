@@ -31,12 +31,29 @@ public class UserDaoImpl extends DaoImpl implements UserDao{
 
 	public User getUserByMail(String mail) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("from user where name = :name");
-		query.setParameter("name", "abc");
-		List list = query.list(); // List of users
+		session.beginTransaction();
+		Query query = session.createQuery("from User where mail = :m");
+		query.setParameter("m", mail);
+		//List list = query.list(); // List of users
 		User usr = (User) query.uniqueResult(); // Single user
-		
+		session.close();
 		return usr;
+	}
+
+	public void updateTokenUSer(String token, User user) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
+		Query query = session.createQuery("update User set token = :tok" +
+				" where idUser = :id");;
+		query.setParameter("tok", token);
+		query.setParameter("id",user.getIdUser());
+		query.executeUpdate();
+		System.out.println(user.getIdUser());
+		session.getTransaction().commit();
+
+		session.close();
+		
 	}
 
 }

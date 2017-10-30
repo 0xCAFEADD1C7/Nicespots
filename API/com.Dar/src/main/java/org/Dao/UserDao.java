@@ -11,4 +11,7 @@ public interface UserDao {
 	public User getUser(int id);
 	public List<User> getAllUser();
 	public User getUserByMail(String mail);
+	
+	
+	public void updateTokenUSer(String  token,User user);
 }

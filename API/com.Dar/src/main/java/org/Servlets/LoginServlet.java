@@ -2,12 +2,19 @@ package org.Servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Random;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.Dao.UserDaoImpl;
+import org.Entite.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +47,29 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		PrintWriter out = response.getWriter();
 		
+		try {
+			JSONObject body = getBody(request);
+			
+			
+			
+			UserDaoImpl userDao = new UserDaoImpl();
+			User user = userDao.getUserByMail(body.getString("mail"));
+			System.out.println(toSHA256(body.getString("password").getBytes()));
+			if(user != null)
+				if(user.getPassword().equals(toSHA256(body.getString("password").getBytes()))) {
+					System.out.println("true connected");
+					Random random = new Random();
+					String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
+					userDao.updateTokenUSer(token, user);
+					out.println(new JSONObject().put("token", token).toString());
+				}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
@@ -54,4 +83,24 @@ public class LoginServlet extends HttpServlet {
 			String body = bodyBuilder.toString();
 			return new JSONObject(body);
 	 }
+	 
+	 
+	 public static String toSHA256(byte[] convertme) {
+		    MessageDigest md = null;
+		    try {
+		        md = MessageDigest.getInstance("SHA-256");
+		    }
+		    catch(NoSuchAlgorithmException e) {
+		        e.printStackTrace();
+		    } 
+		    byte[] mdbytes =  md.digest(convertme);
+		    StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < mdbytes.length; i++) {
+	            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        
+	        return sb.toString();
+
+		}
+
 }
