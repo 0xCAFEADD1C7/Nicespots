@@ -19,6 +19,8 @@ public class Activite {
 	
 	@Column
 	private String nom;
+	
+	
 
 	public Activite(String nom) {
 		super();

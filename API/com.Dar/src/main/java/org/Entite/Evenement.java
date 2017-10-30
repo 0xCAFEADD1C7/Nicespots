@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,6 +33,7 @@ public class Evenement {
 	@JoinColumn(name = "user")
 	private User createur;
 	
+
 	public Evenement(String nom, String description, Spot spot, User createur) {
 		super();
 		this.nom = nom;

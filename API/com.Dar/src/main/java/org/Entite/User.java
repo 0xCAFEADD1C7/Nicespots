@@ -1,5 +1,6 @@
 package org.Entite;
 
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,11 +11,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.Dao.UserDaoImpl;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @Entity
-@Table(name="user")
+@Table(name="user",uniqueConstraints = {@UniqueConstraint(columnNames = {"nom","prenom"})})
 public class User {
 	
 	
@@ -23,8 +30,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUser;
 	
-	@Column(name="mail" )
+	@Column(name="mail", unique=true )
 	private String mail;
+	
+	@Column(name="pseudo", unique = true)
+	private String pseudo;
+	
+	@Column(unique = true)
+	private String token;
 	
 	@Column
 	private String nom;
@@ -54,7 +67,9 @@ public class User {
 		this.dateDeNaissance = dateDeNaissance;
 		this.password = password;
 	}
-
+	
+	public User() {
+	}
 
 	public int getIdUser() {
 		return idUser;
@@ -115,7 +130,44 @@ public class User {
 		this.password = password;
 	}
 	
+	
+	public String toJson() throws JSONException {
+		return new JSONObject()
+				.put("id", idUser)
+				.put("nom", nom)
+				.put("prenom", prenom)
+				.put("date_naissance",this.dateDeNaissance.toString())
+				.put("email",this.mail)
+				.toString();
+	}
 
 	
+	public  static void addUser(JSONObject body,PrintWriter out) throws JSONException {
+		
+		User user = new User();
+		user.setMail(body.getString("mail"));
+		user.setNom(body.getString("nom"));
+		user.setPrenom(body.getString("prenom"));
+		user.setPassword(body.getString("password"));
+		user.setDateDeNaissance(new Date());
+		
+		UserDaoImpl userDao = new UserDaoImpl();
+		userDao.add(user);
+		out.println(user.toJson());
 
+	}
+	
+	public static User getUser(PrintWriter out,int id)  {
+		UserDaoImpl userDao = new UserDaoImpl();
+		User user = userDao.getUser(id);
+		try {
+		out.println(user.toJson());
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.println("{\"error\" : \""+e.getMessage()+"\"}");
+		}
+		System.out.println(user);
+		return user;
+	}
 }

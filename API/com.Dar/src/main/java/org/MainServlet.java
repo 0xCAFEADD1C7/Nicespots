@@ -1,9 +1,10 @@
 package org;
 
 import java.io.BufferedReader;
-
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.Dao.BookDaoImpl;
-import org.Entite.Book;
+import org.Entite.Spot;
+import org.Entite.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,42 +47,54 @@ public class MainServlet extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+	
+    	ClassLoader classLoader = getClass().getClassLoader();
+    	
+    	File f = new File(classLoader.getResource("images/test.txt").getFile());
+    	Scanner sc = new Scanner(f);
+    	System.out.println(sc.next());
+    	sc.close();
+    
 		
-		Book b = new Book(1,"ROBEOB","Ayemeric",125);
-		BookDaoImpl imp = new BookDaoImpl();
-		imp.addBook(b);
-			
-//		try {
-//			String id = request.getParameter("id");
-//			DogBean dog = new DogBean(id);
-//			out.println(dog.toJson());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-//		}
-			
+//    	
+//    	if(requete[1].equals("spot")) {
+//    			Spot.getSpot(out, Integer.parseInt(requete[2]));
+//    	}
 	}
+    
+    
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		PrintWriter out = response.getWriter();
-//		try {
-//			JSONObject body = getBody(request);
-//			
-//			DogBean dog = new DogBean();
-//			dog.setAge(body.getInt("age"));
-//			dog.setName(body.getString("name"));
-//			dog.setRace(Race.valueOf(body.getString("race")));
-//			dog.setTatooId(body.getString("tatooId"));
-//			dog.save();
-//			
-//			out.println(dog.toJson());
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-//		}
+		
+		PrintWriter out = response.getWriter();
+
+		try {
+			JSONObject body = getBody(request);
+			
+		
+		
+		String[] requete = request.getPathInfo().split("/");
+    	
+    	if(requete[1].equals("user")) 
+
+    			User.addUser(body, out);
+
+    	
+    	else if(requete[1].equals("spot"))
+    			Spot.addSpot(body, out);
+
+	
+
+	
+
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.println("{\"error\" : \""+e.getMessage()+"\"}");
+		}
 	}
 	
 	@Override
@@ -96,5 +109,9 @@ public class MainServlet extends HttpServlet {
 //		
 //		test.replaceOne(query, doc);
 	}
+	
+	public  boolean isNumeric(String s) {
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
 
 }

@@ -16,10 +16,70 @@
 
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>UserServlets</servlet-name>
+		<display-name>UserServlets</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.UserServlets</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<display-name>UserServlet</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.UserServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SpotServlet</servlet-name>
+		<display-name>SpotServlet</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.SpotServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CommentaireServlet</servlet-name>
+		<display-name>CommentaireServlet</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.CommentaireServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<display-name>LoginServlet</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SignUpServlet</servlet-name>
+		<display-name>SignUpServlet</display-name>
+		<description></description>
+		<servlet-class>org.Servlets.SignUpServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserServlets</servlet-name>
+		<url-pattern>/UserServlets</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/UserServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SpotServlet</servlet-name>
+		<url-pattern>/SpotServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CommentaireServlet</servlet-name>
+		<url-pattern>/CommentaireServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SignUpServlet</servlet-name>
+		<url-pattern>/SignUpServlet</url-pattern>
 	</servlet-mapping>
 	
 	
