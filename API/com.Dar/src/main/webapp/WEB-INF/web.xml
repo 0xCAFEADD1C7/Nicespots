@@ -4,24 +4,6 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-
-	<servlet>
-		<servlet-name>MainServlet</servlet-name>
-		<servlet-class>org.MainServlet</servlet-class>
-
-		<init-param>
-			<param-name>Author</param-name>
-			<param-value>Aymeric</param-value>
-		</init-param>
-
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>UserServlets</servlet-name>
-		<display-name>UserServlets</display-name>
-		<description></description>
-		<servlet-class>org.Servlets.UserServlets</servlet-class>
-	</servlet>
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<display-name>UserServlet</display-name>
@@ -52,22 +34,14 @@
 		<description></description>
 		<servlet-class>org.Servlets.SignUpServlet</servlet-class>
 	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>MainServlet</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>UserServlets</servlet-name>
-		<url-pattern>/UserServlets</url-pattern>
-	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>UserServlet</servlet-name>
-		<url-pattern>/UserServlet</url-pattern>
+		<url-pattern>/user/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!-- <servlet-mapping>
 		<servlet-name>SpotServlet</servlet-name>
-		<url-pattern>/SpotServlet</url-pattern>
+		<url-pattern>/spot*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CommentaireServlet</servlet-name>
@@ -80,7 +54,7 @@
 	<servlet-mapping>
 		<servlet-name>SignUpServlet</servlet-name>
 		<url-pattern>/SignUpServlet</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 	
 	
 	</web-app>

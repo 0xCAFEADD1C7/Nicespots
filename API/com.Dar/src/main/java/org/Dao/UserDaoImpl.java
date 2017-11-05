@@ -3,53 +3,44 @@ package org.Dao;
 import java.util.List;
 
 import org.Entite.User;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
-import util.HibernateUtil;
-
-public class UserDaoImpl extends DaoImpl implements UserDao{
+public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 
 	public void addUser(User user) {
 		super.add(user);
-		
 	}
 
-	public User getUser(int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	public User getById(int id) {
+		Session session = getSession();
 		session.beginTransaction();
-		User user =session.get(User.class,id);
+		User user = session.get(User.class,id);
 		session.close();
 		return user;
-		
 	}
 
-	public List<User> getAllUser() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getAll() {
+		Query<User> q = query("from User");
+		return super.getAll(q);
 	}
 
-	public User getUserByMail(String mail) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from User where mail = :m");
-		query.setParameter("m", mail);
-		//List list = query.list(); // List of users
-		User usr = (User) query.uniqueResult(); // Single user
-		session.close();
-		return usr;
+	public User getByMail(String mail) {
+		Query<User> q = query("from User where mail = :m");
+		q.setParameter("m", mail);
+		return getOne(q);
 	}
 
 	public void updateTokenUSer(String token, User user) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = getSession();
 		session.beginTransaction();
 		
-		Query query = session.createQuery("update User set token = :tok" +
-				" where idUser = :id");;
-		query.setParameter("tok", token);
-		query.setParameter("id",user.getIdUser());
-		query.executeUpdate();
-		System.out.println(user.getIdUser());
+		String qs = "update User set token = :tok where idUser = :id";
+		Query<User> q = query(qs);
+		q.setParameter("tok", token);
+		q.setParameter("id", user.getIdUser());
+		q.executeUpdate();
+		System.out.println("Updating token for user "+user.getIdUser());
 		session.getTransaction().commit();
 
 		session.close();

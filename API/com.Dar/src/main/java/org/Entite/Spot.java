@@ -69,7 +69,7 @@ public class Spot {
 		Spot spot = new Spot();
 		try {
 			spot.setAime(body.getInt("aime"));
-			User user  = userDao.getUser(Integer.parseInt(body.getString("createur")));
+			User user  = userDao.getById(Integer.parseInt(body.getString("createur")));
 
 			spot.setCreateur(user);
 			spot.setLatitude(Float.parseFloat(body.getString("latitude")));

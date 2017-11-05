@@ -1,6 +1,5 @@
 package org.Entite;
 
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -13,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -62,8 +60,6 @@ public class User {
 	private Set<Commentaire> liker = new HashSet<Commentaire>();
 
 
-	
-	
 	public User(String mail, String nom, String prenom, Date dateDeNaissance, String password) {
 		super();
 		this.mail = mail;
@@ -169,18 +165,19 @@ public class User {
 	        return sb.toString();
 
 		}
+	 
 	public String toJson() throws JSONException {
 		return new JSONObject()
 				.put("id", idUser)
 				.put("nom", nom)
 				.put("prenom", prenom)
-				.put("date_naissance",this.dateDeNaissance.toString())
-				.put("email",this.mail)
+				.put("date_naissance", dateDeNaissance.toString())
+				.put("email", mail)
 				.toString();
 	}
 
 	
-	public  static void addUser(JSONObject body,PrintWriter out) throws JSONException {
+	public static String addUser(JSONObject body) throws JSONException {
 		
 		User user = new User();
 		user.setMail(body.getString("mail"));
@@ -191,21 +188,12 @@ public class User {
 		
 		UserDaoImpl userDao = new UserDaoImpl();
 		userDao.add(user);
-		out.println(user.toJson());
-
+		return user.toJson();
 	}
 	
-	public static User getUser(PrintWriter out,int id)  {
+	public static User getUser(int id)  {
 		UserDaoImpl userDao = new UserDaoImpl();
-		User user = userDao.getUser(id);
-		try {
-		out.println(user.toJson());
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-		}
-		System.out.println(user);
+		User user = userDao.getById(id);
 		return user;
 	}
 }
