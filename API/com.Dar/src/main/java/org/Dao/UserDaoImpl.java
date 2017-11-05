@@ -7,28 +7,26 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 public class UserDaoImpl extends DaoImpl<User> implements UserDao {
-
-	public void addUser(User user) {
-		super.add(user);
-	}
-
-	public User getById(int id) {
-		Session session = getSession();
-		session.beginTransaction();
-		User user = session.get(User.class,id);
-		session.close();
-		return user;
-	}
-
-	public List<User> getAll() {
-		Query<User> q = query("from User");
-		return super.getAll(q);
+	
+	public UserDaoImpl () {
+		super();
+		
+		this.klass = User.class;
+		this.klassName = "User";
 	}
 
 	public User getByMail(String mail) {
+		// TODO create a function that takes a map in argument and fetch it (as in Mongo)
+		Session session = getSession();
+		session.beginTransaction();
+		
 		Query<User> q = query("from User where mail = :m");
 		q.setParameter("m", mail);
-		return getOne(q);
+		
+		User u = q.getSingleResult();
+		
+		session.close();
+		return u;
 	}
 
 	public void updateTokenUSer(String token, User user) {
@@ -44,7 +42,5 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 		session.getTransaction().commit();
 
 		session.close();
-		
 	}
-
 }

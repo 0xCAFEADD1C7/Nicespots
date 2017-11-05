@@ -22,8 +22,8 @@ public class UserServlet extends AbstractCrudServlet {
 
 	@Override
 	protected String getOne(HttpServletRequest req) throws Exception {
-		String uid = getParam(req, 3);
-		User user = User.getUser(Integer.parseInt(uid));
+		int uid = getIDParam(req);
+		User user = User.getUser(uid);
 		
 		if (user == null) {
 			throw new NotFoundException("User not found");
@@ -34,7 +34,7 @@ public class UserServlet extends AbstractCrudServlet {
 
 	@Override
 	protected String getAll(HttpServletRequest request) throws Exception {
-		throw new NotImplementedException();
+		return User.getAll().toString();
 	}
 
 	@Override
@@ -43,7 +43,14 @@ public class UserServlet extends AbstractCrudServlet {
 	}
 
 	@Override
-	protected String delete(HttpServletRequest request) throws Exception {
-		throw new NotImplementedException();
+	protected String delete(HttpServletRequest req) throws Exception {
+		int uid = getIDParam(req);
+		User.delete(uid);
+		return "{ \"deleted\" : true }";
+	}
+	
+	public int getIDParam(HttpServletRequest req) {
+		String uid = getParam(req, 3);
+		return Integer.parseInt(uid);
 	}
 }

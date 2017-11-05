@@ -1,12 +1,17 @@
 package org.Dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.query.Query;
 
 public interface GenericDao<T> {
-	public T getOne(Query<T> query);
-	public List<T> getAll(Query<T> query);
+	public T getById(Serializable id);
+//	public T getOne(Query<T> query);
+	
+	public List<T> getAll();
+//	public List<T> getAll(Query<T> query);
+	
 	public void add(T obj);
-	//TODO add getById
+	public void delete(Serializable id);
 }

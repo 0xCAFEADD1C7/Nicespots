@@ -46,19 +46,16 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 		String path = request.getPathInfo();
 		PrintWriter out = response.getWriter();
 		try {
-			out.println(getOne(request));
+			out.println(getAll(request));
 		} catch(Exception e) {
 			handleError(e, response);
-		} catch(Error e) {
-			e.printStackTrace();
-			response.setStatus(500);
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.getWriter().println(create(request));
-		} catch(Throwable e) {
+		} catch(Exception e) {
 			handleError(e, response);
 		}
 	}
@@ -66,7 +63,7 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.getWriter().println(update(request));
-		} catch(Throwable e) {
+		} catch(Exception e) {
 			handleError(e, response);
 		}
 	}
@@ -74,7 +71,7 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.getWriter().println(delete(request));
-		} catch(Throwable e) {
+		} catch(Exception e) {
 			handleError(e, response);
 		}
 	}

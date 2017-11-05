@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,13 +17,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.Dao.UserDao;
 import org.Dao.UserDaoImpl;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.utils.JSONUtil;
+import org.utils.JSONable;
 
 @Entity
 @Table(name="user",uniqueConstraints = {@UniqueConstraint(columnNames = {"nom","prenom"})})
-public class User {
+public class User implements JSONable {
 	
 	
 	@Id
@@ -166,14 +171,20 @@ public class User {
 
 		}
 	 
-	public String toJson() throws JSONException {
-		return new JSONObject()
-				.put("id", idUser)
-				.put("nom", nom)
-				.put("prenom", prenom)
-				.put("date_naissance", dateDeNaissance.toString())
-				.put("email", mail)
-				.toString();
+	public String toJson() {
+		try {
+			return new JSONObject()
+					.put("id", idUser)
+					.put("nom", nom)
+					.put("prenom", prenom)
+					.put("date_naissance", dateDeNaissance.toString())
+					.put("email", mail)
+					.toString();
+		} catch (JSONException e) {
+			// this should not happen, but this is a hack not to be annoyed by 
+			// JSONObject and its useless throw declaration...
+			return "{ \"wtf\" : true }";
+		}
 	}
 
 	
@@ -195,5 +206,17 @@ public class User {
 		UserDaoImpl userDao = new UserDaoImpl();
 		User user = userDao.getById(id);
 		return user;
+	}
+
+	public static void delete(int id) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		userDao.delete(id);
+	}
+	
+	public static String getAll() throws JSONException {
+		UserDao uDao = new UserDaoImpl();
+		List<User> users = uDao.getAll();
+		
+		return JSONUtil.ofList(users);
 	}
 }
