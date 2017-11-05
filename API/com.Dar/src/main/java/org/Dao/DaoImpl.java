@@ -58,9 +58,12 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	public void add(T o) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.save(o);
-		session.getTransaction().commit();
-		session.close();
+		try {
+			session.save(o);
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
 	}
 	
 	
