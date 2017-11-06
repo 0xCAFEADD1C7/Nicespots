@@ -1,6 +1,8 @@
 package org.Entite;
 
-import java.io.PrintWriter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,20 +11,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.Dao.SpotDaoImpl;
 import org.Dao.UserDaoImpl;
+import org.exceptions.NotImplementedException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.utils.JSONable;
 
 
 @Entity
 @Table(name="spot")
-public class Spot {
-	
+public class Spot implements JSONable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,90 +46,50 @@ public class Spot {
 	private float latitude;
 	
 	@Column
-	private int aime ;
-	@Lob
-	@Column(name="spot_img", nullable=false, columnDefinition="mediumblob")
-	private byte[] image;
+	private String address;
+	
+	@OneToMany(mappedBy="Spot")
+	private List<String> images;
+	
+	@Column
+	private String activity;
+	
+	public List<AvisSpot> getAvis() {
+		throw new NotImplementedException();
+	}
 	
 	public String toJson() throws JSONException {
 		return new JSONObject()
-				.put("idSpot",this.idSpot)
-				.put("nom",this.nom)
-				.put("createur",createur.getIdUser())
+				.put("idSpot", idSpot)
+				.put("nom", nom)
+				.put("createur", createur.getIdUser())
 				.put("longitude",longitude)
-				.put("latitud",latitude)
-				.put("aime",aime)
-				.put("image",image)
-				.toString();
-				
+				.put("latitude",latitude)
+				.toString();	
 	}
 	
-	public static void addSpot(JSONObject body,PrintWriter out) {
+	public static String addSpot(JSONObject body, Serializable uid) throws JSONException {
 		
 		UserDaoImpl userDao = new UserDaoImpl();
 		
-		
 		Spot spot = new Spot();
-		try {
-			spot.setAime(body.getInt("aime"));
-			User user  = userDao.getById(Integer.parseInt(body.getString("createur")));
-
-			spot.setCreateur(user);
-			spot.setLatitude(Float.parseFloat(body.getString("latitude")));
-			spot.setLongitude(Float.parseFloat(body.getString("longitude")));
-			spot.setNom(body.getString("nom"));
-		//	spot.setImage("image",body.get);
-			
-			SpotDaoImpl spotDao = new SpotDaoImpl();
-			spotDao.add(spot);
-			out.println(spot.toJson());
-			System.out.println(spot.toJson());
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-		}
-		
-	}
 	
-	public static Spot getSpot(PrintWriter out,int id) {
+		User user = userDao.getById(uid);
+
+		spot.setCreateur(user);
+		spot.setLatitude(Float.parseFloat(body.getString("latitude")));
+		spot.setLongitude(Float.parseFloat(body.getString("longitude")));
+		spot.setNom(body.getString("nom"));
+		
 		SpotDaoImpl spotDao = new SpotDaoImpl();
-		Spot spot = new Spot();
-		spot = spotDao.getSpot(id);
+		spotDao.add(spot);
 		
-		try {
-			out.println(spot.toJson());
-		} catch (JSONException e) {
-			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-			e.printStackTrace();
-		}
-		System.out.println(spot);
-
-		return spot;
-	}
-	
-	
-	
-
-	public Spot(String nom, User createur, float longitude, float latitude, int aime) {
-		super();
-		this.nom = nom;
-		this.createur = createur;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.aime = aime;
+		return spot.toJson();
+			
 	}
 
 	public Spot() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
+		
 	}
 
 	public String getNom() {
@@ -157,20 +120,46 @@ public class Spot {
 		return latitude;
 	}
 
+	public int getIdSpot() {
+		return idSpot;
+	}
+
+	public void setIdSpot(int idSpot) {
+		this.idSpot = idSpot;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public void setImages(List<String> images) {
+		this.images = images;
+	}
+
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-
-	public int getAime() {
-		return aime;
-	}
-
-	public void setAime(int aime) {
-		this.aime = aime;
+	
+	public List<String> getImages() {
+		return images;
 	}
 	
-	
-	
-	
+	public static Spot getSpot(int id) {
+		SpotDaoImpl spotDao = new SpotDaoImpl();
+		Spot spot = spotDao.getById(id);		
+		return spot;
+	}
 
 }

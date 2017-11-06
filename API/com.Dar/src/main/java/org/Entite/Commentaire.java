@@ -15,14 +15,12 @@ import javax.persistence.Table;
 @Table(name="commentaire")
 public class Commentaire {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int idCommentaire;
 	
-
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name ="user")
 	private User user;
 	
@@ -31,16 +29,7 @@ public class Commentaire {
 	private Evenement evenement;
 	
 	@Column
-	private String message ;
-	
-
-
-	public Commentaire(User commentateur, Evenement evenement, String message) {
-		super();
-		this.user = commentateur;
-		this.evenement = evenement;
-		this.message = message;
-	}
+	private String message;
 
 	public int getIdCommentaire() {
 		return idCommentaire;
