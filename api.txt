@@ -1,0 +1,76 @@
+SPOTS
+
+creer
+
+POST /spot/
+{
+  name, longitude, latitude, activities,
+}
+
+Donnees modifiables
+PUT /spot/{id}
+{
+  nom,  longitude,  latitude,  activities [],
+}
+
+consulter le spot :
+GET /spot/{id}
+{
+  nom,  longitude,  latitude,  activities [], creator, address, currentWeather, images[], reviews[]
+}
+
+Ajouter photo spot
+
+POST /spot/{id}/image ==> 
+  le client envoie l'image sur cette url (avec token d'authentification). Ajoute tout seul l'image au spot
+on peut aussi DELETE /spot/{id}/image/{imageid}
+
+Ajouter un avis ;
+POST /spot/{id}/review ==>
+  { message, rating }
+possible PUT /spot/{id}/review/{idcom}
+  { message, rating }
+possible DELETE /spot/{id}/review/{idcom}
+
+=======================
+
+EVENTS
+
+creer
+
+/event/
+
+{name, description, spot, date }
+
+modifier
+
+{name, description, spot, date }
+
+GET : 
+{ name, description, spot, date, subscribers[], comments[], weather}
+
+supprimer...
+
+commenter un event : 
+POST /event/{id}/comment ==>
+ { message }
+PUT... DELETE
+
+POST /event/{id}/comment/{cid}/like
+
+s'inscrire : POST /event/{id}/subscription/
+se desinscrire : DELETE /event/{id}/subscription/{sid}/
+
+=========================
+
+USER :
+POST /user
+{ mail, firstName, lastName, pseudo, password }
+
+PUT 
+{ mail, firstName, lastName, password }
+
+GET : ==> 
+  { mail, firstName, lastName, pseudo } ??? est ce que c'est grave si on envoie le mail dans l'API ? ca veut dire qu'un mec qui regarde le code peut trouver le mail d'autres users. Mais en meme temps, est ce quon a le temps ??
+
+possibilité de delete??
