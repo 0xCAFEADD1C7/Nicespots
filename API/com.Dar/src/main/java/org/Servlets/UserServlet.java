@@ -1,101 +1,59 @@
 package org.Servlets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.Dao.UserDaoImpl;
 import org.Entite.User;
-import org.json.JSONException;
+import org.exceptions.NotFoundException;
+import org.exceptions.NotImplementedException;
 import org.json.JSONObject;
 
-/**
- * Servlet implementation class UserServlet
- */
-
-@WebServlet("/user/*")
-public class UserServlet extends HttpServlet {
+public class UserServlet extends AbstractCrudServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+  
     public UserServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		PrintWriter out = response.getWriter();
-    	String[] requete = request.getPathInfo().split("/");
-    	
-    	
-    	
-    	System.out.println(request.getPathInfo());
-  		
-			UserDaoImpl userDao = new UserDaoImpl();
-			
-			
-			
-	
-		
-		if(requete.length<1)
-			try {
-				User.getAllUsers(out);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else if(!requete[1].isEmpty())
-     		User.getUser(out, Integer.parseInt(requete[1]));
-		 			
-		
-		
-		
-		
-        		 		
+	@Override
+	protected String create(HttpServletRequest request) throws Exception {
+		JSONObject body = getBody(request);
+		return User.addUser(body);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-
-		try {
-			
-			JSONObject body = getBody(request);
-				User.addUser(body, out);
-        			
-        			
+	@Override
+	protected String getOne(HttpServletRequest req) throws Exception {
+		int uid = getIDParam(req);
+		User user = User.getUser(uid);
 		
-	} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(400);
-			out.println("{\"error\" : \""+e.getMessage()+"\"}");
+		if (user == null) {
+			throw new NotFoundException("User not found");
 		}
+		
+		return user.toJson();
+	}
+
+		
+
+	@Override
+	protected String getAll(HttpServletRequest request) throws Exception {
+		return User.getAll().toString();
+	}
+
+	@Override
+	protected String update(HttpServletRequest request) throws Exception {
+		throw new NotImplementedException();
+	}
+
+
+	@Override
+	protected String delete(HttpServletRequest req) throws Exception {
+		int uid = getIDParam(req);
+		User.delete(uid);
+		return "{ \"deleted\" : true }";
 	}
 	
-	
-	 public JSONObject getBody(HttpServletRequest request) throws IOException, JSONException {
- 		BufferedReader in = request.getReader();
-		StringBuilder bodyBuilder = new StringBuilder();
-		String line;
-		while ((line = in.readLine()) != null) {
-			bodyBuilder.append(line);
-		}
-		String body = bodyBuilder.toString();
-		return new JSONObject(body);
- }
+	public int getIDParam(HttpServletRequest req) {
+		String uid = getParam(req, 3);
+		return Integer.parseInt(uid);
+	}
 }

@@ -2,7 +2,7 @@ package org.Dao;
 
 import java.util.List;
 
-import org.Entite.AviSpot;
+import org.Entite.AvisSpot;
 import org.Entite.Spot;
 import org.Entite.User;
 import org.hibernate.Query;
@@ -34,12 +34,12 @@ public class SpotDaoImpl extends DaoImpl implements SpotDao{
 		return list;
 	}
 	
-	public List<AviSpot> getAvisSpot(Spot spot){
+	public List<AvisSpot> getAvisSpot(Spot spot){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from avisSpot where spot := spotId");
+		Query query = session.createQuery("from avisSpot where spot = :spotId");
 		query.setParameter("spotId",spot.getIdSpot());
-		List<AviSpot> list = query.list(); // List of users
+		List<AvisSpot> list = query.list(); // List of users
 		session.close();
 		return list;
 	}

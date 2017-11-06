@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "name": "marco",
+      "age": 12333,
+      "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "name": "ca",
+      "id": 7
+    },
+    {
+      "name": "boj",
+      "id": 8
+    },
+    {
+      "name": "bojour",
+      "id": 9
+    },
+    {
+      "name": "bojourlesm",
+      "id": 10
+    }
+  ],
+  "profile": {
+    "name": "marco",
+    "age": 12333
+  }
+}

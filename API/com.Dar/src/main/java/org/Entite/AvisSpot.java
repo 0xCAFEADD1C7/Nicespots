@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 @Entity
 @Table(name="avisSpot",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","spot"})})
-public class AviSpot {
+public class AvisSpot {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class AviSpot {
 
 	
 
-	public AviSpot(User user, Spot spot, String avis, boolean aime) {
+	public AvisSpot(User user, Spot spot, String avis, boolean aime) {
 		super();
 		this.user = user;
 		this.spot = spot;

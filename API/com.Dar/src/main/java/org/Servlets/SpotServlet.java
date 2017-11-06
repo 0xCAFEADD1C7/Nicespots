@@ -59,7 +59,7 @@ public class SpotServlet extends HttpServlet {
 			User.getAllUsers(out);
 		
 		else if(!requete[1].isEmpty())
-     		User.getUser(out, Integer.parseInt(requete[1]));
+     		User.getUser(Integer.parseInt(requete[1]));
 		 			
 		}
 		

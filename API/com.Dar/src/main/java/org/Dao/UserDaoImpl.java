@@ -3,44 +3,35 @@ package org.Dao;
 import java.util.List;
 
 import org.Entite.User;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import util.HibernateUtil;
 
-public class UserDaoImpl extends DaoImpl implements UserDao{
+public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 
-	public void addUser(User user) {
-		super.add(user);
-		
+	public UserDaoImpl () {
+		super();
+
+		this.klass = User.class;
+		this.klassName = "User";
 	}
 
-	public User getUser(int id) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	public User getByMail(String mail) {
+		// TODO create a function that takes a map in argument and fetch it (as in Mongo)
+		Session session = getSession();
 		session.beginTransaction();
-		User user =session.get(User.class,id);
+
+		Query<User> q = query("from User where mail = :m");
+		q.setParameter("m", mail);
+
+		User u = q.getSingleResult();
+
 		session.close();
-		return user;
-		
+		return u;
 	}
 
-	public List<User> getAllUser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public User getUserByMail(String mail) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from User where mail = :m");
-		query.setParameter("m", mail);
-		//List list = query.list(); // List of users
-		User usr = (User) query.uniqueResult(); // Single user
-		session.close();
-		return usr;
-	}
-	
-	
 	public List<User> getAllUsers(){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -50,7 +41,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao{
 		return list;
 
 	}
-	
+
 	public User getUserByToken(String token) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -65,14 +56,14 @@ public class UserDaoImpl extends DaoImpl implements UserDao{
 	public void updateUser(String token, User user) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		
+
 		Query query = session.createQuery("update User as b set token = :tok," +
 				" prenom = :prenom,"+
 				" nom = :nom, pseudo =:pseudo,"+
 				" mail =:mail,"+
 				" password =:pass,"+
 				" experiationDate =:edate"+
-				" where idUser = :id");;
+				" where idUser = :id");
 		query.setParameter("tok", token);
 		query.setParameter("id",user.getIdUser());
 		query.setParameter("prenom",user.getPrenom());
@@ -82,10 +73,20 @@ public class UserDaoImpl extends DaoImpl implements UserDao{
 		query.setParameter("pass",user.getPassword());
 		query.setParameter("edate",user.getExperiationDate());
 		query.executeUpdate();
+	}
+
+	public void updateTokenUSer(String token, User user) {
+		Session session = getSession();
+		session.beginTransaction();
+
+		String qs = "update User set token = :tok where idUser = :id";
+		Query<User> q = query(qs);
+		q.setParameter("tok", token);
+		q.setParameter("id", user.getIdUser());
+		q.executeUpdate();
+		System.out.println("Updating token for user "+user.getIdUser());
 		session.getTransaction().commit();
 
 		session.close();
-		
 	}
-
 }

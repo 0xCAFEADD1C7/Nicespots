@@ -19,14 +19,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.Dao.UserDao;
 import org.Dao.UserDaoImpl;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.utils.JSONUtil;
+import org.utils.JSONable;
 
 @Entity
 @Table(name="user",uniqueConstraints = {@UniqueConstraint(columnNames = {"nom","prenom"})})
-public class User {
+public class User implements JSONable {
 	
 	
 	@Id
@@ -61,8 +64,6 @@ public class User {
 	private Set<Commentaire> liker = new HashSet<Commentaire>();
 
 
-	
-	
 	public User(String mail, String nom, String prenom, Date dateDeNaissance, String password) {
 		super();
 		this.mail = mail;
@@ -167,6 +168,7 @@ public class User {
 
 		}
 	 
+
 	 public boolean isValidToken() {
 		 
 		 Timestamp time = new Timestamp(new Date().getTime());
@@ -179,25 +181,24 @@ public class User {
 		 
 	 }
 	 
-	public String toJson() throws JSONException {
-		return new JSONObject()
-				.put("id", idUser)
-				.put("nom", nom)
-				.put("prenom", prenom)
-				.put("email",this.mail)
-				.toString();
+	
+	public String toJson() {
+		try {
+			return new JSONObject()
+					.put("id", idUser)
+					.put("nom", nom)
+					.put("prenom", prenom)
+					.put("email", mail)
+					.toString();
+		} catch (JSONException e) {
+			// this should not happen, but this is a hack not to be annoyed by 
+			// JSONObject and its useless throw declaration...
+			return "{ \"wtf\" : true }";
+		}
 	}
 
 	
-	public JSONObject toJsonObject() throws JSONException {
-		return new JSONObject()
-				.put("id", idUser)
-				.put("nom", nom)
-				.put("prenom", prenom)
-				.put("email",this.mail);
-	}
-	
-	public  static void addUser(JSONObject body,PrintWriter out) throws JSONException {
+	public static String addUser(JSONObject body) throws JSONException {
 		
 		User user = new User();
 		user.setMail(body.getString("mail"));
@@ -207,24 +208,17 @@ public class User {
 				
 		UserDaoImpl userDao = new UserDaoImpl();
 		userDao.add(user);
-		out.println(user.toJson());
-
+		return user.toJson();
 	}
 	
 	
-	public static User getUser(PrintWriter out,int id)  {
+
+	public static User getUser(int id)  {
 		UserDaoImpl userDao = new UserDaoImpl();
-		User user = userDao.getUser(id);
-		try {
-		out.println(user.toJson());
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-			out.println("{\"error\" : \""+e.getMessage()+"\"}");
-		}
-		System.out.println(user);
+		User user = userDao.getById(id);
 		return user;
 	}
+
 	
 	
 	public static void getAllUsers(PrintWriter out) throws JSONException {
@@ -244,7 +238,7 @@ public class User {
 		JSONArray ja = new JSONArray();
 		
 		for(User user : list)
-			ja.put(user.toJsonObject());
+			ja.put(user.toJson());
 		
 		JSONObject mainObj = new JSONObject();
 		mainObj.put("Users ", ja);
@@ -252,5 +246,17 @@ public class User {
 		
 		return mainObj.toString();
 		
+	}
+
+	public static void delete(int id) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		userDao.delete(id);
+	}
+	
+	public static String getAll() throws JSONException {
+		UserDao uDao = new UserDaoImpl();
+		List<User> users = uDao.getAll();
+		
+		return JSONUtil.ofList(users);
 	}
 }

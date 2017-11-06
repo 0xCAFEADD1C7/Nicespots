@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
 			
 			
 			UserDaoImpl userDao = new UserDaoImpl();
-			User user = userDao.getUserByMail(body.getString("mail"));
+			User user = userDao.getByMail(body.getString("mail"));
 			System.out.println(toSHA256(body.getString("password").getBytes()));
 			if(user != null) {
 				if(user.getPassword().equals(toSHA256(body.getString("password").getBytes()))) {
