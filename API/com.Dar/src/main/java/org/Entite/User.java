@@ -40,10 +40,10 @@ public class User implements JSONable {
 	private Date tokenExperiationDate;
 
 	@Column
-	private String nom;
+	private String lastName;
 
 	@Column
-	private String prenom;
+	private String firstName;
 
 	@Column(name ="password")
 	private String password;
@@ -52,6 +52,8 @@ public class User implements JSONable {
 	public User() {
 	}
 	
+		
+
 	public int getIdUser() {
 		return idUser;
 	}
@@ -112,29 +114,35 @@ public class User implements JSONable {
 
 
 
-	public String getNom() {
-		return nom;
+	public String getLastName() {
+		return lastName;
 	}
 
 
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 
 
-	public String getPrenom() {
-		return prenom;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
+
+
 
 	public String getPassword() {
 		return password;
 	}
+
+
 
 	public void setPassword(String password) {
 		this.password = toSHA256(password.getBytes());
@@ -162,8 +170,8 @@ public class User implements JSONable {
 		try {
 			return new JSONObject()
 					.put("id", idUser)
-					.put("nom", nom)
-					.put("prenom", prenom)
+					.put("lastName", lastName)
+					.put("firstName", firstName)
 					.put("email", mail)
 					.toString();
 		} catch (JSONException e) {
@@ -178,8 +186,8 @@ public class User implements JSONable {
 
 		User user = new User();
 		user.setMail(body.getString("mail"));
-		user.setNom(body.getString("nom"));
-		user.setPrenom(body.getString("prenom"));
+		user.setLastName(body.getString("lastName"));
+		user.setFirstName(body.getString("firstName"));
 		user.setPassword(body.getString("password"));
 
 		UserDaoImpl userDao = new UserDaoImpl();
@@ -198,7 +206,7 @@ public class User implements JSONable {
 		userDao.delete(id);
 	}
 
-	public static String getAll() throws JSONException {
+	public static String getAll() throws Exception {
 		UserDao uDao = new UserDaoImpl();
 		List<User> users = uDao.getAll();
 

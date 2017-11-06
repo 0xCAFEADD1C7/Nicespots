@@ -13,8 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="evenement")
-public class Evenement {
+@Table(name="event")
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Evenement {
 	private int idEvent;
 	
 	@Column
-	private String nom;
+	private String name;
 	@Column
 	private String description;
 	
@@ -32,7 +32,7 @@ public class Evenement {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user")
-	private User createur;
+	private User creator;
 	
 	@Column
 	private Date date;
@@ -45,12 +45,12 @@ public class Evenement {
 		this.idEvent = idEvent;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -69,12 +69,12 @@ public class Evenement {
 		this.spot = spot;
 	}
 
-	public User getCreateur() {
-		return createur;
+	public User getCreator() {
+		return creator;
 	}
 
-	public void setCreateur(User createur) {
-		this.createur = createur;
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
 	public Date getDate() {
@@ -84,6 +84,5 @@ public class Evenement {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
 	
 }

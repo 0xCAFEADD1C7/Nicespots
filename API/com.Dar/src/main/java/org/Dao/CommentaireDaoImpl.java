@@ -3,7 +3,7 @@ package org.Dao;
 import java.util.List;
 
 import org.Entite.Commentaire;
-import org.Entite.Evenement;
+import org.Entite.Event;
 import org.Entite.Spot;
 import org.Entite.User;
 import org.hibernate.Session;
@@ -30,7 +30,7 @@ public class CommentaireDaoImpl extends DaoImpl implements CommentaireDao {
 		return null;
 	}
 
-	public List<Commentaire> getCommentaireByEvenement(Evenement evenement) {
+	public List<Commentaire> getCommentaireByEvenement(Event evenement) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="participation",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","evenement"})})
+@Table(name="participation",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","event"})})
 public class Participation {
 
 	@Id
@@ -25,13 +25,13 @@ public class Participation {
 	private User user ;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "evenement")
-	private Evenement evenement;
+	@JoinColumn(name = "event")
+	private Event event;
 
-	public Participation(User user, Evenement evenement) {
+	public Participation(User user, Event event) {
 		super();
 		this.user = user;
-		this.evenement = evenement;
+		this.event = event;
 	}
 
 	public int getIdParticipation() {
@@ -50,12 +50,12 @@ public class Participation {
 		this.user = user;
 	}
 
-	public Evenement getEvenement() {
-		return evenement;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setEvenement(Evenement evenement) {
-		this.evenement = evenement;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 	
 	

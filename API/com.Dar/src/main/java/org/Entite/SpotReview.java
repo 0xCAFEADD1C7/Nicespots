@@ -14,13 +14,13 @@ import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name="avisSpot",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","spot"})})
-public class AvisSpot {
+@Table(name="SpotReview",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","spot"})})
+public class SpotReview {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int idAvis;
+	private int idReview;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user")
@@ -31,30 +31,20 @@ public class AvisSpot {
 	private Spot spot;
 	
 	@Column
-	private String avis;
+	private String review;
 	
 	
 	@Column
-	private boolean aime;
+	private int rating;	
 
-	
 
-	public AvisSpot(User user, Spot spot, String avis, boolean aime) {
-		super();
-		this.user = user;
-		this.spot = spot;
-		this.avis = avis;
-		this.aime = aime;
+	public int getReviewId() {
+		return idReview;
 	}
 
 
-	public int getIdAvis() {
-		return idAvis;
-	}
-
-
-	public void setIdAvis(int idAvis) {
-		this.idAvis = idAvis;
+	public void setReviewId(int idAvis) {
+		this.idReview = idAvis;
 	}
 
 
@@ -78,23 +68,23 @@ public class AvisSpot {
 	}
 
 
-	public String getAvis() {
-		return avis;
+	public String getReview() {
+		return review;
 	}
 
 
-	public void setAvis(String avis) {
-		this.avis = avis;
+	public void setReview(String avis) {
+		this.review = avis;
 	}
 
 
-	public boolean isAime() {
-		return aime;
+	public int getRating() {
+		return rating;
 	}
 
 
-	public void setAime(boolean aime) {
-		this.aime = aime;
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 	
 

@@ -1,7 +1,6 @@
 package org.Entite;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,11 +32,11 @@ public class Spot implements JSONable {
 	private int idSpot;
 	
 	@Column
-	private String nom;
+	private String name;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user")
-	private User createur;
+	private User creator;
 	
 	@Column
 	private float longitude;
@@ -51,18 +50,18 @@ public class Spot implements JSONable {
 	@OneToMany(mappedBy="Spot")
 	private List<String> images;
 	
-	@Column
-	private String activity;
+	@OneToMany(mappedBy="Spot")
+	private List<String> activities;
 	
-	public List<AvisSpot> getAvis() {
+	public List<SpotReview> getReviews() {
 		throw new NotImplementedException();
 	}
 	
 	public String toJson() throws JSONException {
 		return new JSONObject()
 				.put("idSpot", idSpot)
-				.put("nom", nom)
-				.put("createur", createur.getIdUser())
+				.put("name", name)
+				.put("creator", creator.getIdUser())
 				.put("longitude",longitude)
 				.put("latitude",latitude)
 				.toString();	
@@ -76,10 +75,10 @@ public class Spot implements JSONable {
 	
 		User user = userDao.getById(uid);
 
-		spot.setCreateur(user);
+		spot.setCreator(user);
 		spot.setLatitude(Float.parseFloat(body.getString("latitude")));
 		spot.setLongitude(Float.parseFloat(body.getString("longitude")));
-		spot.setNom(body.getString("nom"));
+		spot.setName(body.getString("name"));
 		
 		SpotDaoImpl spotDao = new SpotDaoImpl();
 		spotDao.add(spot);
@@ -92,20 +91,20 @@ public class Spot implements JSONable {
 		
 	}
 
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String nom) {
+		this.name = nom;
 	}
 
-	public User getCreateur() {
-		return createur;
+	public User getCreator() {
+		return creator;
 	}
 
-	public void setCreateur(User createur) {
-		this.createur = createur;
+	public void setCreator(User createur) {
+		this.creator = createur;
 	}
 
 	public float getLongitude() {
@@ -136,12 +135,8 @@ public class Spot implements JSONable {
 		this.address = address;
 	}
 
-	public String getActivity() {
-		return activity;
-	}
-
-	public void setActivity(String activity) {
-		this.activity = activity;
+	public List<String> getActivities() {
+		return activities;
 	}
 
 	public void setImages(List<String> images) {
