@@ -13,5 +13,5 @@ public interface UserDao {
 	public User getUserByMail(String mail);
 	
 	
-	public void updateTokenUSer(String  token,User user);
+	public void updateUser(String  token,User user);
 }

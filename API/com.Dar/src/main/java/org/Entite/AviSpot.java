@@ -7,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 @Entity
@@ -47,6 +49,20 @@ public class AviSpot {
 		this.aime = aime;
 	}
 
+	
+	public JSONObject toJson() {
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("user",user.toJson())
+				.put("spot",spot.toJson())
+				.put("avis",avis)
+				.put("aime",aime);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jo;
+	}
 
 	public int getIdAvis() {
 		return idAvis;

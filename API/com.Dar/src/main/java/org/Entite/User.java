@@ -3,8 +3,10 @@ package org.Entite;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,12 +15,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.Dao.UserDaoImpl;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,9 +52,6 @@ public class User {
 	@Column
 	private String prenom;
 	
-	@Column
-	private Date dateDeNaissance;
-	
 	
 	@Column(name ="password")
 	private String password;
@@ -69,11 +68,18 @@ public class User {
 		this.mail = mail;
 		this.nom = nom;
 		this.prenom = prenom;
-		this.dateDeNaissance = dateDeNaissance;
 		this.password = password;
 	}
 	
 	public User() {
+	}
+
+	public Date getExperiationDate() {
+		return experiationDate;
+	}
+
+	public void setExperiationDate(Date experiationDate) {
+		this.experiationDate = experiationDate;
 	}
 
 	public int getIdUser() {
@@ -132,15 +138,6 @@ public class User {
 	}
 
 
-	public Date getDateDeNaissance() {
-		return dateDeNaissance;
-	}
-
-
-	public void setDateDeNaissance(Date dateDeNaissance) {
-		this.dateDeNaissance = dateDeNaissance;
-	}
-
 
 	public String getPassword() {
 		return password;
@@ -169,16 +166,36 @@ public class User {
 	        return sb.toString();
 
 		}
+	 
+	 public boolean isValidToken() {
+		 
+		 Timestamp time = new Timestamp(new Date().getTime());
+		 Timestamp expiration = new Timestamp(this.getExperiationDate().getTime());
+		 if(time.after(expiration))
+			 return false;
+		 
+		 return true;
+			 
+		 
+	 }
+	 
 	public String toJson() throws JSONException {
 		return new JSONObject()
 				.put("id", idUser)
 				.put("nom", nom)
 				.put("prenom", prenom)
-				.put("date_naissance",this.dateDeNaissance.toString())
 				.put("email",this.mail)
 				.toString();
 	}
 
+	
+	public JSONObject toJsonObject() throws JSONException {
+		return new JSONObject()
+				.put("id", idUser)
+				.put("nom", nom)
+				.put("prenom", prenom)
+				.put("email",this.mail);
+	}
 	
 	public  static void addUser(JSONObject body,PrintWriter out) throws JSONException {
 		
@@ -187,13 +204,13 @@ public class User {
 		user.setNom(body.getString("nom"));
 		user.setPrenom(body.getString("prenom"));
 		user.setPassword(body.getString("password"));
-		user.setDateDeNaissance(new Date());
-		
+				
 		UserDaoImpl userDao = new UserDaoImpl();
 		userDao.add(user);
 		out.println(user.toJson());
 
 	}
+	
 	
 	public static User getUser(PrintWriter out,int id)  {
 		UserDaoImpl userDao = new UserDaoImpl();
@@ -207,5 +224,33 @@ public class User {
 		}
 		System.out.println(user);
 		return user;
+	}
+	
+	
+	public static void getAllUsers(PrintWriter out) throws JSONException {
+		UserDaoImpl userDao = new UserDaoImpl();
+		
+		List<User> list = userDao.getAllUsers();
+		User user = new User();
+		out.println(user.listUserToJson(list));
+		
+			
+
+	}
+	
+	
+	public  String listUserToJson(List<User> list) throws JSONException {
+		
+		JSONArray ja = new JSONArray();
+		
+		for(User user : list)
+			ja.put(user.toJsonObject());
+		
+		JSONObject mainObj = new JSONObject();
+		mainObj.put("Users ", ja);
+		
+		
+		return mainObj.toString();
+		
 	}
 }

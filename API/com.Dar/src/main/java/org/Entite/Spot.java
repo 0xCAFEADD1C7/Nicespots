@@ -1,6 +1,7 @@
 package org.Entite;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,12 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.Dao.SpotDaoImpl;
 import org.Dao.UserDaoImpl;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +34,7 @@ public class Spot {
 	private String nom;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "user", nullable=false)
 	private User createur;
 	
 	@Column
@@ -44,11 +45,18 @@ public class Spot {
 	
 	@Column
 	private int aime ;
-	@Lob
-	@Column(name="spot_img", nullable=false, columnDefinition="mediumblob")
-	private byte[] image;
+	
+	@Column
+	private String image;
 	
 	public String toJson() throws JSONException {
+		
+		SpotDaoImpl spotDao = new SpotDaoImpl();
+		List<AviSpot> avisSpot =spotDao.getAvisSpot(this);
+		JSONArray ja = new JSONArray();
+		for(AviSpot a : avisSpot)
+			ja.put(a.toJson());
+	
 		return new JSONObject()
 				.put("idSpot",this.idSpot)
 				.put("nom",this.nom)
@@ -56,10 +64,13 @@ public class Spot {
 				.put("longitude",longitude)
 				.put("latitud",latitude)
 				.put("aime",aime)
-				.put("image",image)
+				//.put("image",image)
+				.put("avis", ja)
 				.toString();
 				
 	}
+	
+	
 	
 	public static void addSpot(JSONObject body,PrintWriter out) {
 		
@@ -75,8 +86,7 @@ public class Spot {
 			spot.setLatitude(Float.parseFloat(body.getString("latitude")));
 			spot.setLongitude(Float.parseFloat(body.getString("longitude")));
 			spot.setNom(body.getString("nom"));
-		//	spot.setImage("image",body.get);
-			
+			//spot.setImage(body.getString("image"));			
 			SpotDaoImpl spotDao = new SpotDaoImpl();
 			spotDao.add(spot);
 			out.println(spot.toJson());
@@ -121,11 +131,11 @@ public class Spot {
 		// TODO Auto-generated constructor stub
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
@@ -136,6 +146,18 @@ public class Spot {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
+	public int getIdSpot() {
+		return idSpot;
+	}
+
+
+
+	public void setIdSpot(int idSpot) {
+		this.idSpot = idSpot;
+	}
+
+
 
 	public User getCreateur() {
 		return createur;
@@ -168,6 +190,7 @@ public class Spot {
 	public void setAime(int aime) {
 		this.aime = aime;
 	}
+	
 	
 	
 	

@@ -76,12 +76,7 @@ public class MainServlet extends HttpServlet {
 		
 		String[] requete = request.getPathInfo().split("/");
     	
-    	if(requete[1].equals("user")) 
-
-    			User.addUser(body, out);
-
-    	
-    	else if(requete[1].equals("spot"))
+    	if(requete[1].equals("spot"))
     			Spot.addSpot(body, out);
 
 	

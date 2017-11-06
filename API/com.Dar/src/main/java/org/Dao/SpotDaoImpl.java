@@ -2,7 +2,10 @@ package org.Dao;
 
 import java.util.List;
 
+import org.Entite.AviSpot;
 import org.Entite.Spot;
+import org.Entite.User;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import util.HibernateUtil;
@@ -23,8 +26,22 @@ public class SpotDaoImpl extends DaoImpl implements SpotDao{
 	}
 
 	public List<Spot> getAllSpot() {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Spot");
+		List<Spot> list = query.list(); // List of users
+		session.close();
+		return list;
+	}
+	
+	public List<AviSpot> getAvisSpot(Spot spot){
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from avisSpot where spot := spotId");
+		query.setParameter("spotId",spot.getIdSpot());
+		List<AviSpot> list = query.list(); // List of users
+		session.close();
+		return list;
 	}
 
 }

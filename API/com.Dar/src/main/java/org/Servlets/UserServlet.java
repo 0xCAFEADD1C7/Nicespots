@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.Entite.Spot;
+import org.Dao.UserDaoImpl;
 import org.Entite.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +40,30 @@ public class UserServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
     	String[] requete = request.getPathInfo().split("/");
     	
-    	System.out.println(request.getPathInfo());
     	
-    	if(!requete[1].isEmpty())
-    	     		User.getUser(out, Integer.parseInt(requete[1]));
+    	
+    	System.out.println(request.getPathInfo());
+  		
+			UserDaoImpl userDao = new UserDaoImpl();
+			
+			
+			
+	
+		
+		if(requete.length<1)
+			try {
+				User.getAllUsers(out);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else if(!requete[1].isEmpty())
+     		User.getUser(out, Integer.parseInt(requete[1]));
+		 			
+		
+		
+		
+		
         		 		
 	}
 
@@ -54,10 +74,15 @@ public class UserServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		try {
+			
 			JSONObject body = getBody(request);
-        			User.addUser(body, out);
+				User.addUser(body, out);
+        			
+        			
+		
 	} catch (Exception e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			out.println("{\"error\" : \""+e.getMessage()+"\"}");
 		}
 	}

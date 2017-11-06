@@ -39,17 +39,49 @@ public class UserDaoImpl extends DaoImpl implements UserDao{
 		session.close();
 		return usr;
 	}
+	
+	
+	public List<User> getAllUsers(){
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from User");
+		List<User> list = query.list(); // List of users
+		session.close();
+		return list;
 
-	public void updateTokenUSer(String token, User user) {
+	}
+	
+	public User getUserByToken(String token) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from User where token = :m");
+		query.setParameter("m", token);
+		//List list = query.list(); // List of users
+		User usr = (User) query.uniqueResult(); // Single user
+		session.close();
+		return usr;
+	}
+
+	public void updateUser(String token, User user) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
-		Query query = session.createQuery("update User set token = :tok" +
+		Query query = session.createQuery("update User as b set token = :tok," +
+				" prenom = :prenom,"+
+				" nom = :nom, pseudo =:pseudo,"+
+				" mail =:mail,"+
+				" password =:pass,"+
+				" experiationDate =:edate"+
 				" where idUser = :id");;
 		query.setParameter("tok", token);
 		query.setParameter("id",user.getIdUser());
+		query.setParameter("prenom",user.getPrenom());
+		query.setParameter("nom",user.getNom());
+		query.setParameter("pseudo",user.getPseudo());
+		query.setParameter("mail",user.getMail());
+		query.setParameter("pass",user.getPassword());
+		query.setParameter("edate",user.getExperiationDate());
 		query.executeUpdate();
-		System.out.println(user.getIdUser());
 		session.getTransaction().commit();
 
 		session.close();
