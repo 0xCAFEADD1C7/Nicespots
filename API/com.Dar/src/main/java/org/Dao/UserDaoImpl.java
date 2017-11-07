@@ -1,7 +1,5 @@
 package org.Dao;
 
-import java.util.List;
-
 import org.Entite.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -16,17 +14,7 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 	}
 
 	public User getByMail(String mail) {
-		// TODO create a function that takes a map in argument and fetch it (as in Mongo)
-		Session session = getSession();
-		session.beginTransaction();
-		
-		Query<User> q = query("from User where mail = :m");
-		q.setParameter("m", mail);
-		
-		User u = q.getSingleResult();
-		
-		session.close();
-		return u;
+		return getOneBy("mail", mail);
 	}
 
 	public void updateTokenUSer(String token, User user) {
