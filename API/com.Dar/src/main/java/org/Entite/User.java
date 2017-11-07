@@ -10,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.Dao.UserDao;
-import org.Dao.UserDaoImpl;
+
+import org.Dao.implement.UserDaoImpl;
+import org.Dao.interfaces.UserDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONUtil;

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.Dao.UserDaoImpl;
+import org.Dao.implement.UserDaoImpl;
 import org.Entite.User;
 import org.json.JSONException;
 import org.json.JSONObject;

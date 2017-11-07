@@ -1,5 +1,7 @@
-package org.Dao;
+package org.Dao.implement;
 
+import org.Dao.DaoImpl;
+import org.Dao.interfaces.UserDao;
 import org.Entite.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
