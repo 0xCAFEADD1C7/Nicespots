@@ -12,5 +12,4 @@ public class SpotDaoImpl extends DaoImpl<Spot> implements SpotDao {
 	public List<Spot> getSpotsByUser(User user) {
 		return getAllBy("user", user.getIdUser());
 	}
-	
 }
