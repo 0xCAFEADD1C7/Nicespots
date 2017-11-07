@@ -1,5 +1,7 @@
 package org.Entite;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +30,9 @@ public class Comment {
 	
 	@Column
 	private String message;
+	
+	@Column
+	private Date createdAt;
 
 	public int getIdComment() {
 		return idComment;
@@ -60,6 +65,12 @@ public class Comment {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 }

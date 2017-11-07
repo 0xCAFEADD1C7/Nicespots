@@ -16,7 +16,12 @@ PUT /spot/{id}
 consulter le spot :
 GET /spot/{id}
 {
-  nom,  longitude,  latitude,  activities [], creator, address, currentWeather, images[], reviews[]
+  nom,  longitude,  latitude,  activities : string[], creator, address, currentWeather, images: id[], reviews:[{
+    author:String,
+    review:String,
+    createdAt:Date,
+    rating:Number
+  }]
 }
 
 Ajouter photo spot
@@ -47,7 +52,11 @@ modifier
 {name, description, spot, date }
 
 GET : 
-{ name, description, spot, date, subscribers[], comments[], weather}
+{ name, description, spot, date, subscribers : User[], comments[{
+  author:String,
+  message:String,
+  createdAt:Date,
+}], weather}
 
 supprimer...
 

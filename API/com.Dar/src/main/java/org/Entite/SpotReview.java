@@ -1,5 +1,7 @@
 package org.Entite;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +38,9 @@ public class SpotReview {
 	
 	@Column
 	private int rating;	
-
+	
+	@Column
+	private Date createdAt;
 
 	public int getReviewId() {
 		return idReview;
@@ -86,6 +90,14 @@ public class SpotReview {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
 
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 }
