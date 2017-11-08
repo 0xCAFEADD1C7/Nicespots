@@ -4,61 +4,61 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.Dao.interfaces.SpotDao;
-import org.Entite.Spot;
+import org.Dao.interfaces.EventDao;
+import org.Entite.Event;
 import org.exceptions.NotFoundException;
 import org.json.JSONObject;
 import org.utils.DAOFactory;
 import org.utils.JSONUtil;
 
-public class SpotServlet extends AbstractCrudServlet {
+public class EventServlet extends AbstractCrudServlet {
 	private static final long serialVersionUID = 2L;
        
-    public SpotServlet() {
+    public EventServlet() {
         super();
     }
 
 	@Override
 	protected String create(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
-		Spot spot = Spot.fromJson(body);
-		DAOFactory.getSpot().add(spot);
+		Event event = Event.fromJson(body);
+		DAOFactory.getEvent().add(event);
 		
-		return spot.toJson();
+		return event.toJson();
 	}
 
 	@Override
 	protected String getOne(HttpServletRequest request) throws Exception {
 		int uid = getIDParam(request);
-		Spot spot = DAOFactory.getSpot().getById(uid);
+		Event event = DAOFactory.getEvent().getById(uid);
 		
-		if (spot == null) {
+		if (event == null) {
 			throw new NotFoundException("User not found");
 		}
 		
-		return spot.toJson();
+		return event.toJson();
 	}
 
 	@Override
 	protected String getAll(HttpServletRequest request) throws Exception {
-		List<Spot> spots = DAOFactory.getSpot().getAll();
-		return JSONUtil.ofList(spots);
+		List<Event> events = DAOFactory.getEvent().getAll();
+		return JSONUtil.ofList(events);
 	}
 
 	@Override
 	protected String update(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
-		Spot spot = Spot.fromJson(body);
-		DAOFactory.getSpot().update(spot);
+		Event event = Event.fromJson(body);
+		DAOFactory.getEvent().update(event);
 		
-		return spot.toJson();
+		return event.toJson();
 	}
 
 	@Override
 	protected String delete(HttpServletRequest request) throws Exception {
 		int uid = getIDParam(request);
-		SpotDao spot = DAOFactory.getSpot();
-		spot.delete(uid);
+		EventDao event = DAOFactory.getEvent();
+		event.delete(uid);
 		
 		return "{ \"deleted\" : true }";
 	}

@@ -31,7 +31,6 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -62,7 +61,7 @@ public class LoginServlet extends HttpServlet {
 					System.out.println("true connected");
 					Random random = new Random();
 					String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
-					userDao.updateTokenUSer(token, user);
+					userDao.updateTokenUser(token, user);
 					out.println(new JSONObject().put("token", token).toString());
 				}
 			

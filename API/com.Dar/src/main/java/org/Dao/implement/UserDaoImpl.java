@@ -19,7 +19,7 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 		return getOneBy("mail", mail);
 	}
 
-	public void updateTokenUSer(String token, User user) {
+	public void updateTokenUser(String token, User user) {
 		Session session = getSession();
 		session.beginTransaction();
 		

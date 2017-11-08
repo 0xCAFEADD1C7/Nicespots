@@ -16,7 +16,7 @@ PUT /spot/{id}
 consulter le spot :
 GET /spot/{id}
 {
-  nom,  longitude,  latitude,  activities : string[], creator, address, currentWeather, images: id[], reviews:[{
+  nom,  longitude,  latitude,  activities : string[], creator : json, address, currentWeather, images: id[], reviews:[{
     author:String,
     review:String,
     createdAt:Date,

@@ -1,6 +1,5 @@
 package org.Entite;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.Dao.implement.SpotDaoImpl;
-import org.Dao.implement.UserDaoImpl;
-import org.exceptions.NotImplementedException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONable;
@@ -53,39 +49,6 @@ public class Spot implements JSONable {
 	@OneToMany(mappedBy="Spot")
 	private List<String> activities;
 	
-	public List<SpotReview> getReviews() {
-		throw new NotImplementedException();
-	}
-	
-	public String toJson() throws JSONException {
-		return new JSONObject()
-				.put("idSpot", idSpot)
-				.put("name", name)
-				.put("creator", creator.getIdUser())
-				.put("longitude",longitude)
-				.put("latitude",latitude)
-				.toString();	
-	}
-	
-	public static String addSpot(JSONObject body, Serializable uid) throws JSONException {
-		
-		UserDaoImpl userDao = new UserDaoImpl();
-		
-		Spot spot = new Spot();
-	
-		User user = userDao.getById(uid);
-
-		spot.setCreator(user);
-		spot.setLatitude(Float.parseFloat(body.getString("latitude")));
-		spot.setLongitude(Float.parseFloat(body.getString("longitude")));
-		spot.setName(body.getString("name"));
-		
-		SpotDaoImpl spotDao = new SpotDaoImpl();
-		spotDao.add(spot);
-		
-		return spot.toJson();
-			
-	}
 
 	public Spot() {
 		
@@ -151,9 +114,26 @@ public class Spot implements JSONable {
 		return images;
 	}
 	
-	public static Spot getSpot(int id) {
-		SpotDaoImpl spotDao = new SpotDaoImpl();
-		Spot spot = spotDao.getById(id);		
+	public String toJson() throws JSONException {
+		return new JSONObject()
+				.put("idSpot", idSpot)
+				.put("name", name)
+				.put("creator", creator.toJson())
+				.put("longitude",longitude)
+				.put("latitude",latitude)
+				.toString();	
+	}
+	
+	public static Spot fromJson(JSONObject body) throws Exception {
+		Spot spot = new Spot();
+		
+		spot.setIdSpot(Integer.getInteger(body.getString("idSpot")));
+		spot.setName(body.getString("name"));
+		JSONObject jsUser = new JSONObject();
+		spot.setCreator(User.fromJson(jsUser.getJSONObject(body.getString("creator"))));
+		spot.setLongitude(Integer.getInteger(body.getString("longitude")));
+		spot.setLatitude(Integer.getInteger(body.getString("latitude")));
+		
 		return spot;
 	}
 

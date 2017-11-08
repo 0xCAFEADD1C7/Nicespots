@@ -10,6 +10,7 @@ public interface GenericDao<T> {
 	
 	public void add(T obj);
 	public void delete(Serializable id);
+	public void update(T o);
 	
 	public T getOneBy(String field, Serializable value);
 	public List<T> getAllBy(String field, Serializable value);
