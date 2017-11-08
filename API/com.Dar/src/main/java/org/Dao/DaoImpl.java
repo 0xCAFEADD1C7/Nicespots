@@ -94,6 +94,18 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 			session.close();
 		}
 	}
+	
+	/** Update an object **/
+	public void update(T o) {
+		Session session = getSession();
+		session.beginTransaction();
+		try {
+			session.update(o);	//If not working update(KlassName, o)
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
+	}
 
 	/** Get all objects that has `field` = value
 	 * 

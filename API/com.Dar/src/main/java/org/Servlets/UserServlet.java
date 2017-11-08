@@ -1,12 +1,15 @@
 package org.Servlets;
 
-import javax.servlet.annotation.WebServlet;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.Dao.interfaces.UserDao;
 import org.Entite.User;
 import org.exceptions.NotFoundException;
-import org.exceptions.NotImplementedException;
 import org.json.JSONObject;
 import org.utils.DAOFactory;
+import org.utils.JSONUtil;
 
 public class UserServlet extends AbstractCrudServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +30,7 @@ public class UserServlet extends AbstractCrudServlet {
 	@Override
 	protected String getOne(HttpServletRequest req) throws Exception {
 		int uid = getIDParam(req);
-		User user = User.getUser(uid);
+		User user = DAOFactory.getUser().getById(uid);
 		
 		if (user == null) {
 			throw new NotFoundException("User not found");
@@ -38,23 +41,30 @@ public class UserServlet extends AbstractCrudServlet {
 
 	@Override
 	protected String getAll(HttpServletRequest request) throws Exception {
-		return User.getAll().toString();
+		List<User> users = DAOFactory.getUser().getAll();
+		return JSONUtil.ofList(users);
 	}
 
 	@Override
 	protected String update(HttpServletRequest request) throws Exception {
-		throw new NotImplementedException();
+		JSONObject body = getBody(request);
+		User user = User.fromJson(body);
+		DAOFactory.getUser().update(user);
+		
+		return user.toJson();
 	}
 
 	@Override
-	protected String delete(HttpServletRequest req) throws Exception {
-		int uid = getIDParam(req);
-		User.delete(uid);
+	protected String delete(HttpServletRequest request) throws Exception {
+		int uid = getIDParam(request);
+		UserDao user = DAOFactory.getUser();
+		user.delete(uid);
+		
 		return "{ \"deleted\" : true }";
 	}
 	
-	public int getIDParam(HttpServletRequest req) {
-		String uid = getParam(req, 3);
+	public int getIDParam(HttpServletRequest request) {
+		String uid = getParam(request, 3);
 		return Integer.parseInt(uid);
 	}
 }

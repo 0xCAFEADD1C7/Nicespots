@@ -54,7 +54,7 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 		query.executeUpdate();
 }
 
-	public void updateTokenUSer(String token, User user) {
+	public void updateTokenUser(String token, User user) {
 		Session session = getSession();
 		session.beginTransaction();
 		

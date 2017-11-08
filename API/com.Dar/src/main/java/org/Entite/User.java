@@ -50,97 +50,65 @@ public class User implements JSONable {
 	public User() {
 	}
 	
-		
-
 	public int getIdUser() {
 		return idUser;
 	}
-
-
 
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 
-
-
 	public String getMail() {
 		return mail;
 	}
-
-
 
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
 
-
-
 	public String getPseudo() {
 		return pseudo;
 	}
-
-
 
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
 
-
-
 	public String getToken() {
 		return token;
 	}
-
-
 
 	public void setToken(String token) {
 		this.token = token;
 	}
 
-
-
 	public Date getTokenExperiationDate() {
 		return tokenExperiationDate;
 	}
-
-
 
 	public void setTokenExperiationDate(Date tokenExperiationDate) {
 		this.tokenExperiationDate = tokenExperiationDate;
 	}
 
-
-
 	public String getLastName() {
 		return lastName;
 	}
-
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-
-
 	public String getFirstName() {
 		return firstName;
 	}
-
-
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-
-
 	public String getPassword() {
 		return password;
 	}
-
-
 
 	public void setPassword(String password) {
 		this.password = toSHA256(password.getBytes());

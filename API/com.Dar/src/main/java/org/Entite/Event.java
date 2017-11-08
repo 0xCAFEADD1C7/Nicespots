@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @Entity
 @Table(name="event")
 public class Event {
@@ -83,6 +86,34 @@ public class Event {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String toJson() throws JSONException {
+		return new JSONObject()
+				.put("idEvent", idEvent)
+				.put("name", name)
+				.put("description", description)
+				.put("creator", creator.getIdUser())
+				.put("spot", spot.toJson())
+				.put("date", date)
+				.toString();	
+	}
+	
+	public static Event fromJson(JSONObject body) throws Exception {
+		Event event = new Event();
+		
+		event.setIdEvent(Integer.getInteger(body.getString("idEvent")));
+		event.setName(body.getString("name"));
+		JSONObject jsUser = new JSONObject();
+		event.setCreator(User.fromJson(jsUser.getJSONObject(body.getString("creator"))));
+		JSONObject jsSpot = new JSONObject();
+		event.setSpot(Spot.fromJson(jsSpot.getJSONObject(body.getString("spot"))));
+		
+		@SuppressWarnings("deprecation")
+		Date date = new Date(body.getString("date"));
+		event.setDate(date);
+		
+		return event;
 	}
 	
 }

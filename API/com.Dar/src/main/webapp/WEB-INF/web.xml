@@ -39,9 +39,9 @@
 		<servlet-name>UserServlet</servlet-name>
 		<url-pattern>/user/*</url-pattern>
 	</servlet-mapping>
-	<!-- <servlet-mapping>
+ 	<servlet-mapping>
 		<servlet-name>SpotServlet</servlet-name>
-		<url-pattern>/spot*</url-pattern>
+		<url-pattern>/spot/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CommentaireServlet</servlet-name>
@@ -54,7 +54,7 @@
 	<servlet-mapping>
 		<servlet-name>SignUpServlet</servlet-name>
 		<url-pattern>/SignUpServlet</url-pattern>
-	</servlet-mapping> -->
+	</servlet-mapping>
 	
 	
 	</web-app>

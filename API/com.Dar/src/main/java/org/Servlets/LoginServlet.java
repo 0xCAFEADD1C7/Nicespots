@@ -34,6 +34,45 @@ public class LoginServlet extends AbstractCrudServlet {
         super();
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		
+		try {
+			JSONObject body = getBody(request);
+			
+			
+			
+			UserDaoImpl userDao = new UserDaoImpl();
+			User user = userDao.getByMail(body.getString("mail"));
+			System.out.println(toSHA256(body.getString("password").getBytes()));
+			if(user != null)
+				if(user.getPassword().equals(toSHA256(body.getString("password").getBytes()))) {
+					System.out.println("true connected");
+					Random random = new Random();
+					String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
+					userDao.updateTokenUser(token, user);
+					out.println(new JSONObject().put("token", token).toString());
+				}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	 public static JSONObject getBody(HttpServletRequest request) throws IOException, JSONException {
 	 		BufferedReader in = request.getReader();
 			StringBuilder bodyBuilder = new StringBuilder();
@@ -76,7 +115,7 @@ public class LoginServlet extends AbstractCrudServlet {
 				System.out.println("true connected");
 				Random random = new Random();
 				String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
-				userDao.updateTokenUSer(token, user);
+				userDao.updateTokenUser(token, user);
 				return new JSONObject().put("token", token).toString();
 			}
 		}else {
