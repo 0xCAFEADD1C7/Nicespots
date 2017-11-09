@@ -14,10 +14,11 @@ import javax.persistence.Table;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.utils.JSONable;
 
 @Entity
 @Table(name="event")
-public class Event {
+public class Event implements JSONable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

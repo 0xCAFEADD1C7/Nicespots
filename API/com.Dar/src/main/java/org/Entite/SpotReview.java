@@ -13,10 +13,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.json.JSONObject;
+import org.utils.JSONable;
+
 
 @Entity
 @Table(name="SpotReview",uniqueConstraints = {@UniqueConstraint(columnNames = {"user","spot"})})
-public class SpotReview {
+public class SpotReview implements JSONable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,5 +101,17 @@ public class SpotReview {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+
+	public String toJson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public static SpotReview fromJson(JSONObject body) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
