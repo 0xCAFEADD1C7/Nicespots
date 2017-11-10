@@ -20,3 +20,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+API/com.Dar/src/main/resources/hibernate.cfg.xml
+	API/com.Dar/target/classes/hibernate.cfg.xml
+	API/com.Dar/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+	API/com.Dar/target/m2e-wtp/web-resources/META-INF/maven/Dar/com.Dar/pom.properties
+
