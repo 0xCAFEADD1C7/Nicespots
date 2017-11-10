@@ -3,18 +3,16 @@ package org.Entite;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.Dao.UserDao;
-import org.Dao.UserDaoImpl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.utils.JSONUtil;
 import org.utils.JSONable;
 
 @Entity
@@ -181,35 +179,14 @@ public class User implements JSONable {
 		}
 	}
 
-
-	public static String addUser(JSONObject body) throws JSONException {
-
+	public static User fromJson(JSONObject body) throws Exception {
 		User user = new User();
+		
 		user.setMail(body.getString("mail"));
 		user.setLastName(body.getString("lastName"));
 		user.setFirstName(body.getString("firstName"));
 		user.setPassword(body.getString("password"));
-
-		UserDaoImpl userDao = new UserDaoImpl();
-		userDao.add(user);
-		return user.toJson();
-	}
-
-	public static User getUser(int id)  {
-		UserDaoImpl userDao = new UserDaoImpl();
-		User user = userDao.getById(id);
+		
 		return user;
-	}
-
-	public static void delete(int id) {
-		UserDaoImpl userDao = new UserDaoImpl();
-		userDao.delete(id);
-	}
-
-	public static String getAll() throws Exception {
-		UserDao uDao = new UserDaoImpl();
-		List<User> users = uDao.getAll();
-
-		return JSONUtil.ofList(users);
 	}
 }

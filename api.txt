@@ -4,7 +4,7 @@ creer
 
 POST /spot/
 {
-  name, longitude, latitude, activities,
+  name, longitude, latitude, activities [],
 }
 
 Donnees modifiables

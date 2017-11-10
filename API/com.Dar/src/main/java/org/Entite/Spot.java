@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.Dao.SpotDaoImpl;
-import org.Dao.UserDaoImpl;
+import org.Dao.implement.SpotDaoImpl;
+import org.Dao.implement.UserDaoImpl;
 import org.exceptions.NotImplementedException;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -14,11 +14,13 @@ public class SpotServlet extends AbstractCrudServlet {
 
 	@Override
 	protected String create(HttpServletRequest request) throws Exception {
+		return null;
 		
 	}
 
 	@Override
 	protected String getOne(HttpServletRequest request) throws Exception {
+		return null;
 		
 	}
 

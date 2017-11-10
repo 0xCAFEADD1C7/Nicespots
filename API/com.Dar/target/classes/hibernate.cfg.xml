@@ -15,19 +15,11 @@
   
   
   <!-- add classes to map from here -->
-  <mapping class="org.Entite.Book"/>
   <mapping class="org.Entite.User"/>
   <mapping class="org.Entite.Spot"/>
-  <mapping class="org.Entite.Activite"/>
-  <mapping class="org.Entite.AviSpot"/>
-  <mapping class="org.Entite.Evenement"/>
-  <mapping class="org.Entite.Participation"/>
-   <mapping class="org.Entite.Commentaire"/>
-  
- 
-  
-  
-  
+  <mapping class="org.Entite.SpotReview"/>
+  <mapping class="org.Entite.Event"/>
+  <mapping class="org.Entite.Comment"/>  
   
  </session-factory>
 </hibernate-configuration>

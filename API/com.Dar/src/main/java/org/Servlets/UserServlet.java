@@ -6,6 +6,7 @@ import org.Entite.User;
 import org.exceptions.NotFoundException;
 import org.exceptions.NotImplementedException;
 import org.json.JSONObject;
+import org.utils.DAOFactory;
 
 public class UserServlet extends AbstractCrudServlet {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +18,10 @@ public class UserServlet extends AbstractCrudServlet {
 	@Override
 	protected String create(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
-		return User.addUser(body);
+		User user = User.fromJson(body);
+		DAOFactory.getUser().add(user);
+		
+		return user.toJson();
 	}
 
 	@Override
