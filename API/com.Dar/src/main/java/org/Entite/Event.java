@@ -94,27 +94,27 @@ public class Event implements JSONable {
 				.put("idEvent", idEvent)
 				.put("name", name)
 				.put("description", description)
-				.put("creator", creator.getIdUser())
+				.put("creator", creator.toJson())
 				.put("spot", spot.toJson())
 				.put("date", date)
 				.toString();	
 	}
 	
-	public static Event fromJson(JSONObject body) throws Exception {
-		Event event = new Event();
-		
-		event.setIdEvent(Integer.getInteger(body.getString("idEvent")));
-		event.setName(body.getString("name"));
+	public void fromJson(JSONObject body) throws Exception {
+		this.setIdEvent(Integer.getInteger(body.getString("idEvent")));
+		this.setName(body.getString("name"));
 		JSONObject jsUser = new JSONObject();
-		event.setCreator(User.fromJson(jsUser.getJSONObject(body.getString("creator"))));
+		User user = new User();
+		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
+		this.setCreator(user);
 		JSONObject jsSpot = new JSONObject();
-		event.setSpot(Spot.fromJson(jsSpot.getJSONObject(body.getString("spot"))));
+		Spot spot = new Spot();
+		spot.fromJson(jsSpot.getJSONObject(body.getString("spot")));
+		this.setSpot(spot);
 		
 		@SuppressWarnings("deprecation")
 		Date date = new Date(body.getString("date"));
-		event.setDate(date);
-		
-		return event;
+		this.setDate(date);
 	}
 	
 }

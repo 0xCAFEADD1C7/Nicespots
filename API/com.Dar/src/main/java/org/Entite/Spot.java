@@ -124,17 +124,15 @@ public class Spot implements JSONable {
 				.toString();	
 	}
 	
-	public static Spot fromJson(JSONObject body) throws Exception {
-		Spot spot = new Spot();
-		
-		spot.setIdSpot(Integer.getInteger(body.getString("idSpot")));
-		spot.setName(body.getString("name"));
+	public void fromJson(JSONObject body) throws Exception {
+		this.setIdSpot(Integer.getInteger(body.getString("idSpot")));
+		this.setName(body.getString("name"));
 		JSONObject jsUser = new JSONObject();
-		spot.setCreator(User.fromJson(jsUser.getJSONObject(body.getString("creator"))));
-		spot.setLongitude(Integer.getInteger(body.getString("longitude")));
-		spot.setLatitude(Integer.getInteger(body.getString("latitude")));
-		
-		return spot;
+		User user = new User();
+		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
+		this.setCreator(user);
+		this.setLongitude(Integer.getInteger(body.getString("longitude")));
+		this.setLatitude(Integer.getInteger(body.getString("latitude")));
 	}
 
 }

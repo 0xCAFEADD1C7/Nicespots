@@ -21,7 +21,8 @@ public class SpotServlet extends AbstractCrudServlet {
 	@Override
 	protected String create(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
-		Spot spot = Spot.fromJson(body);
+		Spot spot = new Spot();
+		spot.fromJson(body);
 		DAOFactory.getSpot().add(spot);
 		
 		return spot.toJson();
@@ -48,7 +49,8 @@ public class SpotServlet extends AbstractCrudServlet {
 	@Override
 	protected String update(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
-		Spot spot = Spot.fromJson(body);
+		Spot spot = new Spot();
+		spot.fromJson(body);
 		DAOFactory.getSpot().update(spot);
 		
 		return spot.toJson();

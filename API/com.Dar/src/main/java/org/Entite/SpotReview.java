@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONable;
 
@@ -104,14 +105,34 @@ public class SpotReview implements JSONable {
 	}
 
 
-	public String toJson() {
-		// TODO Auto-generated method stub
-		return null;
+	public String toJson() throws JSONException {
+		return new JSONObject()
+				.put("idReview", idReview)
+				.put("user", user.toJson())
+				.put("spot", spot.toJson())
+				.put("review",review)
+				.put("rating",rating)
+				.put("createdAt", createdAt)
+				.toString();	
 	}
 
 
-	public static SpotReview fromJson(JSONObject body) {
-		// TODO Auto-generated method stub
-		return null;
+	public void fromJson(JSONObject body) throws Exception {
+		this.setReviewId(body.getInt("idReview"));
+		
+		JSONObject jsUser = new JSONObject();
+		User user = new User();
+		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
+		
+		JSONObject jsSpot = new JSONObject();
+		Spot spot = new Spot();
+		spot.fromJson(jsSpot.getJSONObject(body.getString("spot")));
+		
+		this.setReview(body.getString("review"));
+		this.setRating(body.getInt("rating"));
+		
+		@SuppressWarnings("deprecation")
+		Date date = new Date(body.getString("createdAt"));
+		this.setCreatedAt(date);
 	}
 }

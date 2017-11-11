@@ -147,14 +147,10 @@ public class User implements JSONable {
 		}
 	}
 
-	public static User fromJson(JSONObject body) throws Exception {
-		User user = new User();
-		
-		user.setMail(body.getString("mail"));
-		user.setLastName(body.getString("lastName"));
-		user.setFirstName(body.getString("firstName"));
-		user.setPassword(body.getString("password"));
-		
-		return user;
+	public void fromJson(JSONObject body) throws Exception {
+		this.setMail(body.getString("mail"));
+		this.setLastName(body.getString("lastName"));
+		this.setFirstName(body.getString("firstName"));
+		this.setPassword(body.getString("password"));
 	}
 }
