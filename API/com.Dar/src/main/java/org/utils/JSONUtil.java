@@ -2,6 +2,9 @@ package org.utils;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class JSONUtil {
 	public static String ofList(List<? extends JSONable> objs) throws Exception {
 		StringBuilder sb = new StringBuilder("[\n");
@@ -15,5 +18,15 @@ public class JSONUtil {
 		
 		sb.append("]");
 		return sb.toString();
+	}
+	
+	public static JSONObject isJSONObject(String str) {
+		JSONObject obj = new JSONObject();
+		try {
+			obj.getJSONObject(str);
+			return obj;
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 }

@@ -58,8 +58,4 @@ public class Participation {
 		this.event = event;
 	}
 	
-	
-	
-		
-	
 }
