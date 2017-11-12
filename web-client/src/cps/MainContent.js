@@ -4,9 +4,13 @@ import './App.css';
 
 import React, { Component } from 'react';
 
-import { Col, Row, Panel, Well, Label, Grid } from 'react-bootstrap';
+import { Col, Row, Well, Grid, Button } from 'react-bootstrap';
 
-import Comment from './Comment';
+import SpotsPage from './SpotsPage';
+import SpotPage from './SpotPage';
+import EventsPage from './EventsPage';
+import EventPage from './EventPage';
+import ComingEvents from './ComingEvents';
 
 export default class MainContent extends Component {
   constructor(props) {
@@ -47,47 +51,17 @@ export default class MainContent extends Component {
               <img src="img/avatar1.png" className="img-circle" height="65" width="65" alt="Avatar"/>
             </Well>
             <Well>
-              <p>
-                <Label bsStyle="default">News</Label>
-                <Label bsStyle="primary">W3Schools</Label>
-                <Label bsStyle="success">Labels</Label>
-                <Label bsStyle="info">Football</Label>
-                <Label bsStyle="warning">Gaming</Label>
-                <Label bsStyle="danger">Friends</Label>
-              </p>
+              <Button bsStyle="success">Parcourir les évenements</Button>
+            </Well>
+            <Well>
+              <Button bsStyle="success">Parcourir les lieux d'interet</Button>
             </Well>
           </Col>
           <Col sm={7}>            
-            <Row>
-              <Col sm={12}>
-                <Panel>
-                  <p>Status: Feeling Blue</p>
-                  <button type="button" className="btn btn-default btn-sm">
-                    <span className="glyphicon glyphicon-thumbs-up"></span>
-                  </button>
-                </Panel>
-              </Col>
-            </Row>
-
-            {this.state.comments.map((comment) => {
-              return <Comment author={comment.author} message={comment.message} avatar={comment.avatar} postDate={comment.postDate} mark={comment.mark} key={comment.author}/>
-            })}
-
+            <SpotPage/>
           </Col>
           <Col sm={2}>
-            <div className="thumbnail">
-              <p>Upcoming Events:</p>
-              <img src="avatar2.jpeg" alt="Paris" width="400" height="300"/>
-              <p><strong>Paris</strong></p>
-              <p>Fri. 27 November 2015</p>
-              <button className="btn btn-primary">Info</button>
-            </div>      
-            <div className="well">
-              <p>ADS</p>
-            </div>
-            <div className="well">
-              <p>ADS</p>
-            </div>
+            <ComingEvents/>
           </Col>
         </Row>
       </Grid>

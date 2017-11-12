@@ -21,9 +21,11 @@ class Comment extends Component {
             &nbsp;{this.props.author}
             &nbsp;<CommentDate date={this.props.postDate} />
           </Col>
-          <Col md={6} style={{textAlign : "right"}}>
-            <StarRatingComponent starCount={5} value={this.props.mark} editing={false} name="fake-name-to-prevent-warnings"/>
-          </Col>
+          { typeof this.props.mark === undefined &&
+            <Col md={6} style={{textAlign : "right"}}>
+              <StarRatingComponent starCount={5} value={this.props.mark} editing={false} name="fake-name-to-prevent-warnings"/>
+            </Col>
+          }
         </Row>
       </Grid>          
     )
