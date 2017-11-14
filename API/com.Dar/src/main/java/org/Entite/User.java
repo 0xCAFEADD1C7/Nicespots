@@ -153,4 +153,8 @@ public class User implements JSONable {
 		this.setFirstName(body.getString("firstName"));
 		this.setPassword(body.getString("password"));
 	}
+
+	public boolean isValidToken() {
+		return tokenExperiationDate.before(new Date());
+	}
 }

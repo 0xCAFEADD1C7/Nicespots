@@ -3,6 +3,7 @@ package org.Servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,13 +41,22 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 	protected abstract String getAll(HttpServletRequest request) throws Exception;    
 	protected abstract String update(HttpServletRequest request) throws Exception;
 	protected abstract String delete(HttpServletRequest request) throws Exception;
+	
+	// NOTE : override this function do finer route handling for get
+	protected boolean isGetOne(HttpServletRequest request) {
+		String uri = request.getRequestURI();
+		int nbSlash = uri.length() - uri.replace("/", "").length();
+		return nbSlash == 3;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO get mapping
-		String path = request.getPathInfo();
 		PrintWriter out = response.getWriter();
 		try {
-			out.println(getAll(request));
+			if (isGetOne(request)) {
+				out.println(getOne(request));
+			} else {
+				out.println(getAll(request));
+			}
 		} catch(Exception e) {
 			handleError(e, response);
 		}
