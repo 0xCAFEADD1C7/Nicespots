@@ -136,4 +136,9 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 	public String getParam(HttpServletRequest req, int i) {
 		return req.getRequestURI().split("/")[i];
 	}
+	
+	public int getIDParam(HttpServletRequest request) {
+		String uid = getParam(request, 3);
+		return Integer.parseInt(uid);
+	}
 }

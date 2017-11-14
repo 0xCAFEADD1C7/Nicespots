@@ -64,10 +64,4 @@ public class SpotServlet extends AbstractCrudServlet {
 		
 		return "{ \"deleted\" : true }";
 	}
-	
-	//TODO already use in UserServlet, do generic function ?
-	public int getIDParam(HttpServletRequest request) {
-		String uid = getParam(request, 3);
-		return Integer.parseInt(uid);
-	}
 }
