@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.Dao.implement.UserDaoImpl;
 import org.Entite.User;
+import org.exceptions.NotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +24,7 @@ import org.json.JSONObject;
  */
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends AbstractCrudServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -31,49 +32,9 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		PrintWriter out = response.getWriter();
-		
-		try {
-			JSONObject body = getBody(request);
-			
-			
-			
-			UserDaoImpl userDao = new UserDaoImpl();
-			User user = userDao.getByMail(body.getString("mail"));
-			System.out.println(toSHA256(body.getString("password").getBytes()));
-			if(user != null)
-				if(user.getPassword().equals(toSHA256(body.getString("password").getBytes()))) {
-					System.out.println("true connected");
-					Random random = new Random();
-					String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
-					userDao.updateTokenUSer(token, user);
-					out.println(new JSONObject().put("token", token).toString());
-				}
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
-	 public JSONObject getBody(HttpServletRequest request) throws IOException, JSONException {
+	 public static JSONObject getBody(HttpServletRequest request) throws IOException, JSONException {
 	 		BufferedReader in = request.getReader();
 			StringBuilder bodyBuilder = new StringBuilder();
 			String line;
@@ -103,4 +64,44 @@ public class LoginServlet extends HttpServlet {
 
 		}
 
+	@Override
+	protected String create(HttpServletRequest request) throws Exception {
+		JSONObject body = getBody(request);
+		
+		UserDaoImpl userDao = new UserDaoImpl();
+		User user = userDao.getByMail(body.getString("mail"));
+		System.out.println(toSHA256(body.getString("password").getBytes()));
+		if(user != null) {
+			if(user.getPassword().equals(toSHA256(body.getString("password").getBytes()))) {
+				System.out.println("true connected");
+				Random random = new Random();
+				String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
+				userDao.updateTokenUSer(token, user);
+				return new JSONObject().put("token", token).toString();
+			}
+		}else {
+			System.out.println("{\"error\" : \""+"Le mot de passe ou le username est incorrect"+"\"}");
+		}
+		throw new NotFoundException("Invalide token");
+	}
+
+	@Override
+	protected String getOne(HttpServletRequest request) throws Exception {
+		throw new NotFoundException("Invalide Root");
+	}
+
+	@Override
+	protected String getAll(HttpServletRequest request) throws Exception {
+		throw new NotFoundException("Invalide Root");
+	}
+
+	@Override
+	protected String update(HttpServletRequest request) throws Exception {
+		throw new NotFoundException("Invalide Root");
+	}
+
+	@Override
+	protected String delete(HttpServletRequest request) throws Exception {
+		throw new NotFoundException("Invalide Root");
+	}
 }

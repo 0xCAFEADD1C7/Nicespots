@@ -22,6 +22,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/marco/eclipse-workspace/Servlet/jar/java-json.jar"/>
+	<classpathentry kind="lib" path="./include/java-json.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
