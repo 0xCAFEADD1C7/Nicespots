@@ -179,7 +179,7 @@ public class User implements JSONable {
 		}
 	}
 
-	public static User fromJson(JSONObject body) throws Exception {
+	public User fromJson(JSONObject body) throws Exception {
 		User user = new User();
 		
 		user.setMail(body.getString("mail"));
