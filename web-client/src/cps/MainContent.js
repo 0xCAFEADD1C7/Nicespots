@@ -6,41 +6,37 @@ import React, { Component } from 'react';
 
 import { Col, Row, Well, Grid, Button } from 'react-bootstrap';
 
+import { connect } from 'react-redux';
+
 import SpotsPage from './SpotsPage';
 import SpotPage from './SpotPage';
 import EventsPage from './EventsPage';
 import EventPage from './EventPage';
 import ComingEvents from './ComingEvents';
 
-export default class MainContent extends Component {
+import { PAGE, ACTIONS } from '../lib/constants';
+
+import { } from '../lib/actions';
+
+import { SpotCRUD, EventCRUD, UserCRUD } from '../lib';
+import { viewPage } from '../lib/actions';
+
+class MainContent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      comments : [
-        {
-          author : "Aymeric", 
-          message : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          avatar : "img/avatar1.png",
-          postDate : new Date(),
-          mark : 5
-        },
-        {
-          author : "Marco", 
-          message : "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          avatar : "img/avatar3.jpeg",
-          postDate : new Date(new Date()-100000),
-          mark : 2
-        },
-        {
-          author : "Zak", 
-          message : "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo.",
-          avatar : "img/avatar2.png",
-          postDate : new Date(new Date()-10000000),
-          mark : 4
-        },
-      ]
+  }
+
+  renderPage = () => {
+    switch (this.props.page) {
+      case PAGE.home : return <span>PAS ENCORE FAIT</span>
+      case PAGE.event : return <EventPage />
+      case PAGE.spot : return <SpotPage />
+      case PAGE.listEvents : return <EventsPage />
+      case PAGE.listSpots : return <SpotsPage />
+      default : return <div>OUPS, PAGE INCONNUE</div>
     }
   }
+
   render() {
     return (
       <Grid>    
@@ -51,14 +47,14 @@ export default class MainContent extends Component {
               <img src="img/avatar1.png" className="img-circle" height="65" width="65" alt="Avatar"/>
             </Well>
             <Well>
-              <Button bsStyle="success">Parcourir les évenements</Button>
+              <Button bsStyle="success" onClick={this.props.loadEvents}>Parcourir les évenements</Button>
             </Well>
             <Well>
-              <Button bsStyle="success">Parcourir les lieux d'interet</Button>
+              <Button bsStyle="success" onClick={this.props.loadSpots}>Parcourir les lieux d'interet</Button>
             </Well>
           </Col>
           <Col sm={7}>            
-            <SpotPage/>
+            { this.renderPage() }
           </Col>
           <Col sm={2}>
             <ComingEvents/>
@@ -68,3 +64,26 @@ export default class MainContent extends Component {
     )
   }
 }
+
+function mapStateToProps(st) {
+  return {
+    page : st.page,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadSpots : () => {
+      SpotCRUD.get().then(data => {
+        dispatch(viewPage(ACTIONS.ViewSpots, data));
+      })
+    },
+    loadEvents : () => {
+      EventCRUD.get().then(data => {
+        dispatch(viewPage(ACTIONS.ViewEvents, data));
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

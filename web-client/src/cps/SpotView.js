@@ -11,16 +11,18 @@ import PhotoGallery from './PhotoGallery';
 
 import { spotReviews } from '../sampleProp';
 
+import { connect } from 'react-redux';
+
 import md5 from 'blueimp-md5';
 
-function PrettyLabel(props) {
+function PrettyLabel({value}) {
   const styles = ["success", "info", "warning", "danger", "defaut"]
-  const hash = parseInt(md5(props.value), 16);
+  const hash = parseInt(md5(value), 16);
   const style = styles[hash % styles.length];
-  return <Label bsStyle={style}>{props.value}</Label>
+  return <Label bsStyle={style}>{value}</Label>
 }
 
-export default class SpotView extends Component {
+class SpotView extends Component {
   render() {
     const header = <div>
       <p>{this.props.name}</p>
@@ -38,6 +40,8 @@ export default class SpotView extends Component {
     )
   }
 }
+
+export default SpotView;
 
 SpotView.propTypes = {
   

@@ -1,4 +1,8 @@
-export default {
-  Login : "LOGIN",
-  Logout : "LOGOUT",
+import { ACTIONS } from "./constants";
+
+export function viewPage(actionType, data) {
+  return {
+    type : actionType,
+    data,
+  }
 }

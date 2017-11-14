@@ -3,7 +3,7 @@ import axios from "axios";
 const api = axios.create({
   // baseURL : 'http://localhost:8080/',
   // baseURL : 'http://172.20.10.2:8080/com.Dar/',
-  baseURL : "http://localhost:1234/",
+  baseURL : "http://localhost:4000",
 })
 
 /**
@@ -17,6 +17,11 @@ export function login(email, pass) {
   return api.post('/login', {
     email, pass
   })
+}
+
+/* Wrapper function that takes axios reponse promise in arg, and returns its data */
+function w(prom) {
+  return prom.then(resp => resp.data);
 }
 
 export class CRUD {
@@ -34,7 +39,7 @@ export class CRUD {
    * Get a list of `ressource`
    */
   get = () => {
-    return api.get(this.ressourceUrl);
+    return w(api.get(this.ressourceUrl));
   }
 
   /**
@@ -42,7 +47,7 @@ export class CRUD {
    * @param {string} id ressource ID
    */
   getOne = (id) => {
-    return api.get(this.ressourceUrl + id)
+    return w(api.get(this.ressourceUrl + id))
   }
 
   /**
@@ -50,7 +55,7 @@ export class CRUD {
    * @param data json object to post to API
    */
   create = (data) => {
-    return api.post(this.ressourceUrl, data);
+    return w(api.post(this.ressourceUrl, data));
   }
 
   /**
@@ -58,7 +63,7 @@ export class CRUD {
    * @param id id of ressource to remove
    */
   delete = (id) => {
-    return api.delete(this.ressourceUrl + id);
+    return w(api.delete(this.ressourceUrl + id));
   }
 
   /**
@@ -67,7 +72,7 @@ export class CRUD {
    * @param data json object to send to API
    */
   update = (id, data) => {
-    return api.post(this.ressourceUrl, data);
+    return w(api.post(this.ressourceUrl, data));
   }
 }
 
