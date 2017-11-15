@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.exceptions.NotFoundException;
+import org.exceptions.UnauthorizedException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -102,6 +103,8 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 			status = 404;
 		} else if (err instanceof ConstraintViolationException) {
 			status = 409;
+		} else if (err instanceof UnauthorizedException) {
+			status = 403;
 		} else {
 			status = 400;
 		}	

@@ -35,7 +35,7 @@ public class User implements JSONable {
 	private String token;
 
 	@Column
-	private Date tokenExperiationDate;
+	private Date tokenExpirationDate;
 
 	@Column
 	private String lastName;
@@ -82,12 +82,12 @@ public class User implements JSONable {
 		this.token = token;
 	}
 
-	public Date getTokenExperiationDate() {
-		return tokenExperiationDate;
+	public Date getTokenExpirationDate() {
+		return tokenExpirationDate;
 	}
 
-	public void setTokenExperiationDate(Date tokenExperiationDate) {
-		this.tokenExperiationDate = tokenExperiationDate;
+	public void setTokenExpirationDate(Date tokenExperiationDate) {
+		this.tokenExpirationDate = tokenExperiationDate;
 	}
 
 	public String getLastName() {
@@ -150,6 +150,8 @@ public class User implements JSONable {
 	}
 
 	public boolean isValidToken() {
-		return tokenExperiationDate.before(new Date());
+		return (tokenExpirationDate != null)
+				? new Date().before(tokenExpirationDate)
+				: false;
 	}
 }
