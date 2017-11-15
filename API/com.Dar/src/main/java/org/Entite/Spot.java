@@ -17,9 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.Dao.DaoImpl;
-import org.Dao.implement.UserDaoImpl;
-import org.exceptions.NotFoundException;
 import org.json.JSONObject;
 import org.utils.DAOFactory;
 import org.utils.JSONUtil;
@@ -127,7 +124,7 @@ public class Spot implements JSONable {
 	
 	public String toJson() throws Exception {
 		return new JSONObject()
-				.put("idSpot", idSpot)
+				.put("id", idSpot)
 				.put("name", name)
 				.put("creator", new JSONObject(creator.toJson()))
 				.put("longitude",longitude)

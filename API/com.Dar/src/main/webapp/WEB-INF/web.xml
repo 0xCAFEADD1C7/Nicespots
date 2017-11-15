@@ -17,10 +17,10 @@
 		<servlet-class>org.Servlets.SpotServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CommentaireServlet</servlet-name>
-		<display-name>CommentaireServlet</display-name>
+		<servlet-name>CommentServlet</servlet-name>
+		<display-name>CommentServlet</display-name>
 		<description></description>
-		<servlet-class>org.Servlets.CommentaireServlet</servlet-class>
+		<servlet-class>org.Servlets.CommentServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
@@ -29,10 +29,10 @@
 		<servlet-class>org.Servlets.LoginServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>SignUpServlet</servlet-name>
-		<display-name>SignUpServlet</display-name>
+		<servlet-name>EventServlet</servlet-name>
+		<display-name>EventServlet</display-name>
 		<description></description>
-		<servlet-class>org.Servlets.SignUpServlet</servlet-class>
+		<servlet-class>org.Servlets.EventServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -44,18 +44,17 @@
 		<url-pattern>/spot/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>CommentaireServlet</servlet-name>
-		<url-pattern>/CommentaireServlet</url-pattern>
+		<servlet-name>CommentServlet</servlet-name>
+		<url-pattern>/comment/</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/LoginServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>SignUpServlet</servlet-name>
-		<url-pattern>/SignUpServlet</url-pattern>
+		<servlet-name>EventServlet</servlet-name>
+		<url-pattern>/event/*</url-pattern>
 	</servlet-mapping>
-	
 	
 	</web-app>
 	

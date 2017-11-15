@@ -3,7 +3,6 @@ package org.Entite;
 import java.util.Date;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.exceptions.NotFoundException;
 import org.json.JSONObject;
+import org.utils.DAOFactory;
 import org.utils.JSONable;
 
 @Entity
@@ -30,11 +31,11 @@ public class Event implements JSONable {
 	@Column
 	private String description;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "spot")
 	private Spot spot;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "user")
 	private User creator;
 	
@@ -94,14 +95,29 @@ public class Event implements JSONable {
 				.put("idEvent", idEvent)
 				.put("name", name)
 				.put("description", description)
-				.put("creator", creator.toJson())
-				.put("spot", spot.toJson())
+				.put("creator", new JSONObject(creator.toJson()))
+				.put("spot",  new JSONObject(spot.toJson()))
 				.put("date", date)
 				.toString();	
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
-		
-	}
+        name = body.getString("name");
+        description = body.getString("description");
+        date = new Date(body.getInt("date"));
+        
+        int spotId = body.getInt("spot");
+        spot = DAOFactory.getSpot().getById(spotId);
+        
+        if (spot == null) {
+        		throw new NotFoundException("No spot with id "+spotId);
+        }
+        
+        int creatorId = (int) infos.get("userId");
+        creator = DAOFactory.getUser().getById(creatorId);
+        
+        System.out.println("CREATOR :"+creator+ " - " + creatorId);
+        System.out.println("SPOT :"+spot);
+    }
 	
 }

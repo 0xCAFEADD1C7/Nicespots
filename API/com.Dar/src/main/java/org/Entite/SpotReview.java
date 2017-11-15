@@ -14,7 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONable;
 

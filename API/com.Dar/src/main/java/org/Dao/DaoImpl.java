@@ -31,6 +31,7 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	/** Used to generate a query without the type-safety warning **/
 	@SuppressWarnings("unchecked")
 	public Query<T> query(String q) {
+		System.out.println("QUERY : "+q);
 		return getSession().createQuery(q);
 	}
 
