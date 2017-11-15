@@ -50,8 +50,6 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	public T getById(Serializable id) {
 		Session session = getSession();
 		session.beginTransaction();
-		System.out.println("KLASSSSSS = "+klass);
-		System.out.println("IDDDDDDDD = "+id);
 		T user = session.get(klass, id);
 		session.close();
 		return user;

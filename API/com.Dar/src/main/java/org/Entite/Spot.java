@@ -126,7 +126,6 @@ public class Spot implements JSONable {
 	}
 	
 	public String toJson() throws Exception {
-//		throw new NotFoundException(creator.toString());
 		return new JSONObject()
 				.put("idSpot", idSpot)
 				.put("name", name)
