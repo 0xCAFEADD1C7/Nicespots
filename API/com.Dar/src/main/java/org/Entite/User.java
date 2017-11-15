@@ -143,10 +143,12 @@ public class User implements JSONable {
 
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
-		this.setMail(body.getString("mail"));
-		this.setLastName(body.getString("lastName"));
-		this.setFirstName(body.getString("firstName"));
-		this.setPassword(body.getString("password"));
+		mail = body.getString("email");
+		firstName = body.getString("firstName");
+		lastName = body.getString("lastName");
+		pseudo = body.getString("pseudo");
+		password = body.getString("password");
+		//TODO setPassword();
 	}
 
 	public boolean isValidToken() {

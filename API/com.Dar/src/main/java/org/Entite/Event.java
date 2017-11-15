@@ -1,5 +1,6 @@
 package org.Entite;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -119,5 +120,4 @@ public class Event implements JSONable {
         System.out.println("CREATOR :"+creator+ " - " + creatorId);
         System.out.println("SPOT :"+spot);
     }
-	
 }
