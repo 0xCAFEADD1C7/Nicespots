@@ -3,6 +3,7 @@ package org.Entite;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONable;
 
@@ -132,22 +132,17 @@ public class User implements JSONable {
 
 	}
 
-	public String toJson() {
-		try {
-			return new JSONObject()
-					.put("id", idUser)
-					.put("lastName", lastName)
-					.put("firstName", firstName)
-					.put("email", mail)
-					.toString();
-		} catch (JSONException e) {
-			// this should not happen, but this is a hack not to be annoyed by 
-			// JSONObject and its useless throw declaration...
-			return "{ \"wtf\" : true }";
-		}
+	public String toJson() throws Exception {
+		return new JSONObject()
+				.put("id", idUser)
+				.put("lastName", lastName)
+				.put("firstName", firstName)
+				.put("email", mail)
+				.toString();
 	}
 
-	public void fromJson(JSONObject body) throws Exception {
+	
+	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
 		this.setMail(body.getString("mail"));
 		this.setLastName(body.getString("lastName"));
 		this.setFirstName(body.getString("firstName"));

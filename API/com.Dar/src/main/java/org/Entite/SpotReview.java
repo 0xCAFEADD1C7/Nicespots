@@ -1,6 +1,7 @@
 package org.Entite;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -105,7 +106,7 @@ public class SpotReview implements JSONable {
 	}
 
 
-	public String toJson() throws JSONException {
+	public String toJson() throws Exception {
 		return new JSONObject()
 				.put("idReview", idReview)
 				.put("user", user.toJson())
@@ -117,22 +118,7 @@ public class SpotReview implements JSONable {
 	}
 
 
-	public void fromJson(JSONObject body) throws Exception {
-		this.setReviewId(body.getInt("idReview"));
+	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
 		
-		JSONObject jsUser = new JSONObject();
-		User user = new User();
-		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
-		
-		JSONObject jsSpot = new JSONObject();
-		Spot spot = new Spot();
-		spot.fromJson(jsSpot.getJSONObject(body.getString("spot")));
-		
-		this.setReview(body.getString("review"));
-		this.setRating(body.getInt("rating"));
-		
-		@SuppressWarnings("deprecation")
-		Date date = new Date(body.getString("createdAt"));
-		this.setCreatedAt(date);
 	}
 }

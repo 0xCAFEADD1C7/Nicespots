@@ -62,12 +62,11 @@ public class LoginServlet extends AbstractCrudServlet {
 					System.out.println("true connected");
 					Random random = new Random();
 					String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
-					userDao.updateTokenUser(token, user);
+// TODO					userDao.updateTokenUser(token, user);
 					out.println(new JSONObject().put("token", token).toString());
 				}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -115,7 +114,7 @@ public class LoginServlet extends AbstractCrudServlet {
 				System.out.println("true connected");
 				Random random = new Random();
 				String token =toSHA256(new String(user.getMail()+random.nextDouble()).getBytes());
-				userDao.updateTokenUser(token, user);
+// TODO				userDao.updateTokenUser(token, user);
 				return new JSONObject().put("token", token).toString();
 			}
 		}else {

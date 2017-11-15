@@ -1,8 +1,9 @@
 package org.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class JSONUtil {
@@ -20,13 +21,12 @@ public class JSONUtil {
 		return sb.toString();
 	}
 	
-	public static JSONObject isJSONObject(String str) {
-		JSONObject obj = new JSONObject();
-		try {
-			obj.getJSONObject(str);
-			return obj;
-		} catch (JSONException e) {
-			return null;
+	public static List<String> getStringArray(JSONObject o, String fieldName) throws Exception {
+		List<String> out = new ArrayList<>();
+		JSONArray array = o.getJSONArray(fieldName);
+		for (int i = 0; i < array.length(); i++) {
+			out.add(array.getString(i));
 		}
+		return out;
 	}
 }

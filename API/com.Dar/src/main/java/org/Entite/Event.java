@@ -1,6 +1,7 @@
 package org.Entite;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONable;
 
@@ -89,7 +89,7 @@ public class Event implements JSONable {
 		this.date = date;
 	}
 
-	public String toJson() throws JSONException {
+	public String toJson() throws Exception {
 		return new JSONObject()
 				.put("idEvent", idEvent)
 				.put("name", name)
@@ -100,21 +100,8 @@ public class Event implements JSONable {
 				.toString();	
 	}
 	
-	public void fromJson(JSONObject body) throws Exception {
-		this.setIdEvent(Integer.getInteger(body.getString("idEvent")));
-		this.setName(body.getString("name"));
-		JSONObject jsUser = new JSONObject();
-		User user = new User();
-		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
-		this.setCreator(user);
-		JSONObject jsSpot = new JSONObject();
-		Spot spot = new Spot();
-		spot.fromJson(jsSpot.getJSONObject(body.getString("spot")));
-		this.setSpot(spot);
+	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
 		
-		@SuppressWarnings("deprecation")
-		Date date = new Date(body.getString("date"));
-		this.setDate(date);
 	}
 	
 }

@@ -1,12 +1,13 @@
 package org.Servlets;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.Dao.GenericDao;
 import org.exceptions.NotFoundException;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.utils.JSONUtil;
 import org.utils.JSONable;
@@ -26,7 +27,7 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 	protected String create(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
 		T obj = klass.newInstance();
-		obj.fromJson(body);
+		obj.fromJson(body, collectInfos(request));
 		getDAO().add(obj);
 		
 		return obj.toJson();
@@ -38,7 +39,7 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 		T obj = getDAO().getById(uid);
 		
 		if (obj == null) {
-			throw new NotFoundException("User not found");
+			throw new NotFoundException(klass.getName()+" not found");
 		}
 		
 		return obj.toJson();
@@ -54,7 +55,7 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 	protected String update(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
 		T obj = klass.newInstance();
-		obj.fromJson(body);
+		obj.fromJson(body, collectInfos(request));
 		getDAO().update(obj);
 		
 		return obj.toJson();
@@ -74,20 +75,10 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 		return Integer.parseInt(uid);
 	}
 	
-	public String toJsonSafe(String in, String[] outs) throws Exception {
-		JSONObject res = new JSONObject();
-		res.getJSONObject(in);
+	protected Map<String, Object> collectInfos(HttpServletRequest request) {
+		HashMap<String, Object> infos = new HashMap<>();
+		infos.put("userId", 1);//request.getAttribute("userId"));
 		
-		for(String out : outs) {
-			JSONObject obj = new JSONObject();
-			try {
-				obj.getJSONObject(out);
-				res.put(out, toJsonSafe(obj.toString(), outs));
-			} catch (JSONException e) {
-				res.remove(out);
-			}
-		}
-		
-		return res.toString();
+		return infos;
 	}
 }

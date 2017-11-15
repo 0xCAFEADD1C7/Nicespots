@@ -1,20 +1,28 @@
 package org.Entite;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.json.JSONException;
+import org.Dao.DaoImpl;
+import org.Dao.implement.UserDaoImpl;
+import org.exceptions.NotFoundException;
 import org.json.JSONObject;
+import org.utils.DAOFactory;
+import org.utils.JSONUtil;
 import org.utils.JSONable;
 
 
@@ -43,11 +51,14 @@ public class Spot implements JSONable {
 	@Column
 	private String address;
 	
-	@OneToMany(mappedBy="Spot")
-	private List<String> images;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "images")
+	private Set<String> images;
+	 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "activities")
+	private Set<String> activities;
 	
-	@OneToMany(mappedBy="Spot")
-	private List<String> activities;
 	
 
 	public Spot() {
@@ -98,11 +109,11 @@ public class Spot implements JSONable {
 		this.address = address;
 	}
 
-	public List<String> getActivities() {
+	public Set<String> getActivities() {
 		return activities;
 	}
 
-	public void setImages(List<String> images) {
+	public void setImages(Set<String> images) {
 		this.images = images;
 	}
 
@@ -110,29 +121,36 @@ public class Spot implements JSONable {
 		this.latitude = latitude;
 	}
 	
-	public List<String> getImages() {
+	public Set<String> getImages() {
 		return images;
 	}
 	
-	public String toJson() throws JSONException {
+	public String toJson() throws Exception {
+//		throw new NotFoundException(creator.toString());
 		return new JSONObject()
 				.put("idSpot", idSpot)
 				.put("name", name)
-				.put("creator", creator.toJson())
+				.put("creator", new JSONObject(creator.toJson()))
 				.put("longitude",longitude)
 				.put("latitude",latitude)
+				.put("images", images)
+				.put("activities", activities)
 				.toString();	
 	}
 	
-	public void fromJson(JSONObject body) throws Exception {
-		this.setIdSpot(Integer.getInteger(body.getString("idSpot")));
-		this.setName(body.getString("name"));
-		JSONObject jsUser = new JSONObject();
-		User user = new User();
-		user.fromJson(jsUser.getJSONObject(body.getString("creator")));
-		this.setCreator(user);
-		this.setLongitude(Integer.getInteger(body.getString("longitude")));
-		this.setLatitude(Integer.getInteger(body.getString("latitude")));
+	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
+		name = body.getString("name");
+		longitude = Float.parseFloat(body.getString("longitude"));
+		latitude = Float.parseFloat(body.getString("latitude"));
+		// TODO address = ...
+		
+		// TODO images on POST ?
+		// images = JSONUtil.getStringArray(body, "images");
+		images = new HashSet<>();
+		
+		activities = new HashSet<String>(JSONUtil.getStringArray(body, "activities"));
+		int creatorId = (int) infos.get("userId");
+		creator = DAOFactory.getUser().getById(creatorId);
 	}
 
 }

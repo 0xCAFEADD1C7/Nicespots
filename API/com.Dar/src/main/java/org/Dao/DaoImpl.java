@@ -17,6 +17,16 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	public static Session getSession() {
 		return HibernateUtil.getSessionFactory().getCurrentSession();
 	}
+	
+	public static<T> T load(Class<T> t, Serializable id) {
+		Session s = getSession();
+		s.beginTransaction();
+		
+		T r = s.load(t, id);
+		
+		s.close();
+		return r;
+	}
 
 	/** Used to generate a query without the type-safety warning **/
 	@SuppressWarnings("unchecked")
@@ -40,6 +50,8 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	public T getById(Serializable id) {
 		Session session = getSession();
 		session.beginTransaction();
+		System.out.println("KLASSSSSS = "+klass);
+		System.out.println("IDDDDDDDD = "+id);
 		T user = session.get(klass, id);
 		session.close();
 		return user;
