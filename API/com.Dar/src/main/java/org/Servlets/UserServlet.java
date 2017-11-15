@@ -9,6 +9,7 @@ public class UserServlet extends SimpleAbstractServlet<User> {
   
     public UserServlet() {
         super();
+        klass = User.class;
     }
 
 	@Override
