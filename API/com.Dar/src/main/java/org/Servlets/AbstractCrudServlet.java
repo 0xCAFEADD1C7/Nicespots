@@ -110,7 +110,7 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 			message = err.getMessage();
 		}
 		
-		String escapedError = (message != null ? err.getMessage() : "")
+		String escapedError = (message != null ? message : "")
 				.replaceAll("\"", "\\\\\"");
 		res.setStatus(status);
 		out.format(errJson, escapedError);
