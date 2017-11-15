@@ -1,5 +1,6 @@
 package org.Entite;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.utils.DAOFactory;
 import org.utils.JSONable;
 
 
@@ -111,14 +113,20 @@ public class SpotReview implements JSONable {
 				.put("idReview", idReview)
 				.put("user", user.toJson())
 				.put("spot", spot.toJson())
-				.put("review",review)
-				.put("rating",rating)
+				.put("review", review)
+				.put("rating", rating)
 				.put("createdAt", createdAt)
 				.toString();	
 	}
 
 
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
-		
+		review = body.getString("review");
+	    rating = body.getInt("rating");
+	    
+		int spotId = body.getInt("spot");
+		spot = DAOFactory.getSpot().getById(spotId);
+	    user = DAOFactory.getUser().getById((int)infos.get("userId"));
+	    createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
 	}
 }

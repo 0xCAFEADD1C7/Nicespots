@@ -1,5 +1,6 @@
 package org.Entite;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.json.JSONObject;
+import org.utils.DAOFactory;
 import org.utils.JSONable;
 
 @Entity
@@ -101,7 +103,13 @@ public class Event implements JSONable {
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
+		name = body.getString("name");
+		description = body.getString("description");
+		int spotId = body.getInt("spot");
+		spot = DAOFactory.getSpot().getById(spotId);
+		date = DateFormat.getDateInstance().parse(body.getString("date"));
 		
+		creator = DAOFactory.getUser().getById((int)infos.get("userId"));
 	}
 	
 }
