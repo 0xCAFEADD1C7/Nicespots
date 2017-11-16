@@ -5,7 +5,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
          
-	<display-name>Archetype Created Web Application</display-name>
+	<display-name>Spots API</display-name>
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>org.Servlets.UserServlet</servlet-class>
@@ -25,6 +25,10 @@
 	<servlet>
 		<servlet-name>EventServlet</servlet-name>
 		<servlet-class>org.Servlets.EventServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>FileUploadServlet</servlet-name>
+		<servlet-class>org.Servlets.FileUploadServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -47,13 +51,33 @@
 		<servlet-name>EventServlet</servlet-name>
 		<url-pattern>/event/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FileUploadServlet</servlet-name>
+		<url-pattern>/upload/*</url-pattern>
+	</servlet-mapping>
 
 	<filter>
-		<filter-name>Authentication</filter-name>
+		<filter-name>EditAuthentication</filter-name>
+		<filter-class>org.filter.AuthenticationFilter</filter-class>
+		<init-param>
+			<param-name>methods</param-name>
+			<param-value>PUT,POST,DELETE</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>AllAuthentication</filter-name>
 		<filter-class>org.filter.AuthenticationFilter</filter-class>
 		<init-param>
 			<param-name>methods</param-name>
 			<param-value>GET,PUT,POST,DELETE</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>UserAuthentication</filter-name>
+		<filter-class>org.filter.AuthenticationFilter</filter-class>
+		<init-param>
+			<param-name>methods</param-name>
+			<param-value>PUT,DELETE</param-value>
 		</init-param>
 	</filter>
 	<filter>
@@ -62,8 +86,17 @@
 	</filter>	
 
 	<filter-mapping>
-		<filter-name>Authentication</filter-name>
+		<filter-name>EditAuthentication</filter-name>
 		<servlet-name>EventServlet</servlet-name>
+		<servlet-name>SpotServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AllAuthentication</filter-name>
+		<servlet-name>FileUploadServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UserAuthentication</filter-name>
+		<servlet-name>UserServlet</servlet-name>
 	</filter-mapping>
 
 </web-app>

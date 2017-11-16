@@ -77,7 +77,7 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 	
 	protected Map<String, Object> collectInfos(HttpServletRequest request) {
 		HashMap<String, Object> infos = new HashMap<>();
-		infos.put("userId", 2);//request.getAttribute("userId"));
+		infos.put("userId", request.getAttribute("userId"));
 		
 		return infos;
 	}

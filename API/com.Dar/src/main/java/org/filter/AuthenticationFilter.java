@@ -46,10 +46,10 @@ public class AuthenticationFilter implements Filter {
 		if (token == null) {
 			if (mandatory) {
 				fail(response);
-				return;
 			} else {
 				chain.doFilter(servletRequest, servletResponse);
 			}
+			return;
 		}
 	
 		UserDao udao = DAOFactory.getUser();
