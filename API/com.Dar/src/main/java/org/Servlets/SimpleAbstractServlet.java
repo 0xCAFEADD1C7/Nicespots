@@ -27,8 +27,13 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 	protected String create(HttpServletRequest request) throws Exception {
 		JSONObject body = getBody(request);
 		T obj = klass.newInstance();
-		obj.fromJson(body, collectInfos(request));
-		getDAO().add(obj);
+		try {
+			obj.fromJson(body, collectInfos(request));
+			getDAO().add(obj);
+		} catch (Exception e) {
+			//throw new Exception("create getDAO().add(obj) refuse bad body or Infos");
+			throw e;
+		}
 		
 		return obj.toJson();
 	}

@@ -41,7 +41,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CommentServlet</servlet-name>
-		<url-pattern>/comment/</url-pattern>
+		<url-pattern>/comment/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -89,6 +89,8 @@
 		<filter-name>EditAuthentication</filter-name>
 		<servlet-name>EventServlet</servlet-name>
 		<servlet-name>SpotServlet</servlet-name>
+        <servlet-name>SpotReviewServlet</servlet-name>
+        <servlet-name>CommentServlet</servlet-name>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>AllAuthentication</filter-name>

@@ -61,7 +61,7 @@ GET :
 supprimer...
 
 commenter un event : 
-POST /event/{id}/comment ==>
+POST /comment/{id} ==>
  { message }
 PUT... DELETE
 
