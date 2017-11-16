@@ -109,9 +109,9 @@ public class SpotReview implements JSONable {
 
 	public String toJson() throws Exception {
 		return new JSONObject()
-				.put("idReview", idReview)
-				.put("user", user.toJson())
-				.put("spot", spot.toJson())
+				.put("id", idReview)
+				.put("user", new JSONObject(user.toJson()))
+				.put("spot", new JSONObject(spot.toJson()))
 				.put("review", review)
 				.put("rating", rating)
 				.put("createdAt", createdAt)
@@ -123,8 +123,12 @@ public class SpotReview implements JSONable {
 		review = body.getString("review");
 	    rating = body.getInt("rating");
 	    
-		int spotId = body.getInt("spot");
-		spot = DAOFactory.getSpot().getById(spotId);
+	    int idSpot = (int)infos.get("spot");
+	    spot = DAOFactory.getSpot().getById(idSpot);
+	    if(spot == null) {
+	    	throw new Exception("Spot ID Not Valid");
+	    }
+		
 	    user = DAOFactory.getUser().getById((int)infos.get("userId"));
 	    createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
 	}

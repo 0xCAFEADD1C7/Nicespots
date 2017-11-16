@@ -1,7 +1,5 @@
 package org.Entite;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Map;
 
@@ -13,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.json.JSONObject;
+import org.utils.CryptoUtils;
 import org.utils.JSONable;
 
 @Entity
@@ -111,25 +110,7 @@ public class User implements JSONable {
 	}
 
 	public void setPassword(String password) {
-		this.password = toSHA256(password.getBytes());
-	}
-
-	public static String toSHA256(byte[] convertme) {
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		}
-		catch(NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} 
-		byte[] mdbytes =  md.digest(convertme);
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < mdbytes.length; i++) {
-			sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
-		}
-
-		return sb.toString();
-
+		this.password = CryptoUtils.toSHA256(password.getBytes());
 	}
 
 	public String toJson() throws Exception {
@@ -140,15 +121,13 @@ public class User implements JSONable {
 				.put("email", mail)
 				.toString();
 	}
-
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
 		mail = body.getString("email");
 		firstName = body.getString("firstName");
 		lastName = body.getString("lastName");
 		pseudo = body.getString("pseudo");
-		password = body.getString("password");
-		//TODO setPassword();
+		setPassword(body.getString("password"));
 	}
 
 	public boolean isValidToken() {

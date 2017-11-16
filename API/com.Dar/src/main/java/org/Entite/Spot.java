@@ -135,6 +135,7 @@ public class Spot implements JSONable {
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
+		System.out.println(">>>fromJson Spot");
 		name = body.getString("name");
 		longitude = Float.parseFloat(body.getString("longitude"));
 		latitude = Float.parseFloat(body.getString("latitude"));
