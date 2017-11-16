@@ -8,8 +8,18 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { login } from '../lib';
+// import Actions from '../lib/actions';
 
-export default class LoginBox extends Component {
+import { connect } from 'react-redux';
+
+// function loggedInAction(user) {
+//   return {
+//     type : Actions.login,
+//     data : user,
+//   }
+// }
+
+class LoginBox extends Component {
   handleChange = (e) => {
     const elName = e.target.name;
     const elValue = e.target.value;
@@ -41,3 +51,16 @@ export default class LoginBox extends Component {
 LoginBox.propTypes = {
   
 }
+
+function mapStateToProps(state) {
+  alert("MapStateToProps "+state);
+  return {
+    user: state.user
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  alert("MapStateToProps "+dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginBox)

@@ -9,6 +9,7 @@ import {  } from 'react-bootstrap';
 
 class CommentDate extends Component {
   computeString(date) {
+    date = new Date(date);
     const dtime = new Date() - date;
 
     const seconds = 1000;

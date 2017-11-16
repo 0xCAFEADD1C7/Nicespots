@@ -15,33 +15,35 @@ function removeTodo(id) {
 }
 
 const initialState = {
-  todos : [
-    {
-      name: "manger des granolas",
-      id:1,
-    },
-    {
-      name: "attendre marco",
-      id:2,
-    }
-  ]
+  user : null,
+  page : "accueil"
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case "REM_TODO":
-      return {
-        ...state,
-        todos : todos.filter(todo => todo.id !== action.todo.id)
-      }
+      return Object.assign({}, state, {
+        todos : state.todos.filter(todo => todo.id !== action.id)
+      })
 
     case "ADD_TODO":
-      return {
-        ...state,
-        todos : todos.concat([action.todo])
-      }
+      return Object.assign({}, state, {
+        todos : state.todos.concat([action.todo])
+      })
   
     default:
       return state;
   }
 }
+
+const store = redux.createStore(reducer, initialState);
+
+const unsubscribe = store.subscribe(() => {
+  console.log(store.getState());
+})
+
+store.dispatch(addTodo({id : 4, name : 'apprendre redux'}));
+store.dispatch(addTodo({id : 5, name : 'utiliser redux ?'}));
+store.dispatch(removeTodo(2));
+
+unsubscribe();

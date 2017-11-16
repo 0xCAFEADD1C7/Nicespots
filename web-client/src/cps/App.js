@@ -8,7 +8,19 @@ import {  } from 'react-bootstrap';
 import Navbar from './Navbar';
 import MainContent from './MainContent';
 
-// import Test from './Test';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import { reducer, initialState } from '../lib/reducer';
+
+const store = createStore(reducer, initialState);
+
+function UnboundApp(props) {
+  return <div>
+    <Navbar />
+    <MainContent />
+  </div>
+}
 
 export default class App extends Component {
   constructor (props) {
@@ -20,14 +32,9 @@ export default class App extends Component {
 
   render () {
     return (
-    <div>
-      <Navbar />
-      <MainContent />
-      <div>
-        Logo from <a href="https://www.flaticon.com/authors/freepik">Freepik</a>.
-      </div>
-    </div>
-    // <Test/>
+      <Provider store={store}>
+        <UnboundApp/>
+      </Provider>
     )
   }
 }
