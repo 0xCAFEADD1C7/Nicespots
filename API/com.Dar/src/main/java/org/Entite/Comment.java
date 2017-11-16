@@ -101,7 +101,7 @@ public class Comment implements JSONable {
 	    if(event == null) {
 	    	throw new Exception("Event ID Not Valid");
 	    }
-		
+	    
 		createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
 	}
 
