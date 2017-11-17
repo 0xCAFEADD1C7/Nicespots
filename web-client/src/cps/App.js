@@ -15,6 +15,11 @@ import { reducer, initialState } from '../lib/reducer';
 
 const store = createStore(reducer, initialState);
 
+store.subscribe(() => {
+  const serialized = JSON.stringify(store.getState(), null, 3);
+  window.localStorage.setItem('STATE', serialized);
+})
+
 function UnboundApp(props) {
   return <div>
     <Navbar />

@@ -15,6 +15,10 @@ function setStateToPage(state, page, stateFieldName, data) {
 
 export function reducer(state = initialState, action) {
   switch (action.type) {
+    case '@@redux/INIT':
+      const savedState = window.localStorage.getItem("STATE");
+      return savedState ? JSON.parse(savedState) : state;
+
     case ACTIONS.Login :
       return {
         ...state,
