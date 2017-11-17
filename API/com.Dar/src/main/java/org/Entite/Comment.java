@@ -1,6 +1,5 @@
 package org.Entite;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -103,7 +102,6 @@ public class Comment implements JSONable {
 	    	throw new Exception("Event ID Not Valid");
 	    }
 	    
-		//createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
 	    createdAt = new Date();
 	}
 

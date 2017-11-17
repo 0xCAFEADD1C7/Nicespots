@@ -28,7 +28,5 @@ public class MapApiClient {
 			}
 			
 			return mapJson.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-			
-			//return (String)mapJson.query("/results/0/formatted_address");
 		}
 }
