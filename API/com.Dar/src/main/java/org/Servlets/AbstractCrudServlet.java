@@ -47,6 +47,9 @@ public abstract class AbstractCrudServlet extends HttpServlet {
 	protected boolean isGetOne(HttpServletRequest request) {
 		String uri = request.getRequestURI();
 		int nbSlash = uri.length() - uri.replace("/", "").length();
+		if (uri.charAt(uri.length()-1) == '/') {
+			nbSlash--;
+		}
 		return nbSlash == 3;
 	}
 
