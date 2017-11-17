@@ -44,7 +44,11 @@ public class WeatherApiClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return (String)meteoJson.query("/list/" + Integer.toString(index) + "/weather/0/main");
+		
+		return meteoJson.getJSONArray("list").getJSONObject(index).getJSONArray("weather")
+				.getJSONObject(0).getString("main");
+		
+		//return (String)meteoJson.query("/list/" + Integer.toString(index) + "/weather/0/main");
 	}
 	
 	/**

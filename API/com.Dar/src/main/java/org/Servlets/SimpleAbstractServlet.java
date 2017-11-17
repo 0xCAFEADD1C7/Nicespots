@@ -75,11 +75,6 @@ public abstract class SimpleAbstractServlet<T extends JSONable> extends Abstract
 		return "{ \"deleted\" : true }";
 	}
 	
-	public int getIDParam(HttpServletRequest request) {
-		String uid = getParam(request, 3);
-		return Integer.parseInt(uid);
-	}
-	
 	protected Map<String, Object> collectInfos(HttpServletRequest request) {
 		HashMap<String, Object> infos = new HashMap<>();
 		infos.put("userId", request.getAttribute("userId"));

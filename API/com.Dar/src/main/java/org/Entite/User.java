@@ -118,6 +118,7 @@ public class User implements JSONable {
 				.put("id", idUser)
 				.put("lastName", lastName)
 				.put("firstName", firstName)
+				.put("pseudo", pseudo)
 				.put("email", mail)
 				.toString();
 	}

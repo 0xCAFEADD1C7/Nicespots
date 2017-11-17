@@ -94,6 +94,7 @@ public class Comment implements JSONable {
 
 	public void fromJson(JSONObject body, Map<String, Object> infos) throws Exception {
 		message = body.getString("message");
+		
 		poster = DAOFactory.getUser().getById((int)infos.get("userId"));
 	    
 		int idEvent = (int)infos.get("eventId");
@@ -102,7 +103,8 @@ public class Comment implements JSONable {
 	    	throw new Exception("Event ID Not Valid");
 	    }
 	    
-		createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
+		//createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
+	    createdAt = new Date();
 	}
 
 }
