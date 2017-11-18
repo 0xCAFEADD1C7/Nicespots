@@ -36,17 +36,12 @@ public class SpotReviewServlet extends SimpleAbstractServlet<SpotReview> {
 		int spotId = getIDParam(request);
 		JSONObject body = getBody(request);
 		SpotReview obj = klass.newInstance();
-		try {
-			Map<String, Object> collect = collectInfos(request);
-			collect.put("spotId", spotId);
-			obj.fromJson(body, collect);
+		Map<String, Object> collect = collectInfos(request);
+		collect.put("spotId", spotId);
+		obj.fromJson(body, collect);
 
-			getDAO().add(obj);
+		getDAO().add(obj);
 
-		} catch (Exception e) {
-			throw e;
-		}
-		
 		return obj.toJson();
 	}
 	
@@ -80,20 +75,12 @@ public class SpotReviewServlet extends SimpleAbstractServlet<SpotReview> {
 		int spotId = getIDParam(request);
 		JSONObject body = getBody(request);
 		SpotReview obj = klass.newInstance();
-		try {
-			Map<String, Object> collect = collectInfos(request);
-			collect.put("spotId", spotId);
-			obj.fromJson(body, collect);
-			obj.setReviewId(getIDParamUid(request));
-			System.out.println(">>>");
-			System.out.println(obj.toJson());
-			System.out.println("<<<");
-			getDAO().update(obj);
+		Map<String, Object> collect = collectInfos(request);
+		collect.put("spotId", spotId);
+		obj.fromJson(body, collect);
+		obj.setReviewId(getIDParamUid(request));
+		getDAO().update(obj);
 
-		} catch (Exception e) {
-			throw e;
-		}
-		
 		return obj.toJson();
 	}
 
@@ -131,8 +118,6 @@ public class SpotReviewServlet extends SimpleAbstractServlet<SpotReview> {
 			} else if (nbSlash(request) == 4) {
 				out.println(getOne(request));
 			} else {
-				//Not Logic
-				//out.println(getAll(request));
 				throw new Exception("Action Not Valid");
 			}
 		} catch(Exception e) {
