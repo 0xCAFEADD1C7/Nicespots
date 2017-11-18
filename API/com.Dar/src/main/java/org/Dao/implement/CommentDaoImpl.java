@@ -12,11 +12,11 @@ import org.Entite.User;
 public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
 	
 	public CommentDaoImpl () {
-		super();
-		
-		this.klass = Comment.class;
-		this.klassName = "Comment";
-	}
+        super();
+        
+        this.klass = Comment.class;
+        this.klassName = "Comment";
+    }
 
 	public List<Comment> getCommentsByUser(User user) {
 		return getAllBy("user", user.getIdUser());

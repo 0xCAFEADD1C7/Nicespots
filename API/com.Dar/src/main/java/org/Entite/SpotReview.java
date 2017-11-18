@@ -1,6 +1,5 @@
 package org.Entite;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -110,8 +109,8 @@ public class SpotReview implements JSONable {
 	public String toJson() throws Exception {
 		return new JSONObject()
 				.put("id", idReview)
-				.put("user", new JSONObject(user.toJson()))
-				.put("spot", new JSONObject(spot.toJson()))
+				.put("author", user.getPseudo())
+				.put("spotId", spot.getIdSpot())
 				.put("review", review)
 				.put("rating", rating)
 				.put("createdAt", createdAt)
@@ -123,13 +122,13 @@ public class SpotReview implements JSONable {
 		review = body.getString("review");
 	    rating = body.getInt("rating");
 	    
-	    int idSpot = (int)infos.get("spot");
+	    int idSpot = (int)infos.get("spotId");
 	    spot = DAOFactory.getSpot().getById(idSpot);
 	    if(spot == null) {
 	    	throw new Exception("Spot ID Not Valid");
 	    }
 		
 	    user = DAOFactory.getUser().getById((int)infos.get("userId"));
-	    createdAt = DateFormat.getDateInstance().parse(body.getString("createdAt"));
+	    createdAt = new Date();
 	}
 }

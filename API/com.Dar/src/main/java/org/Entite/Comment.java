@@ -82,12 +82,12 @@ public class Comment implements JSONable {
 	public String toJson() throws Exception {
 		return new JSONObject()
 				.put("id", idComment)
-				.put("poster Last name",poster.getLastName())
-				.put("poster first name", poster.getFirstName())
-				.put("poster pseudo ",poster.getPseudo() )
-				.put("evenement", event.getIdEvent())
-				.put("Date de creation", createdAt )
-				.put("message",this.message)
+				.put("LastName", poster.getLastName())
+				.put("FirstName", poster.getFirstName())
+				.put("pseudo", poster.getPseudo() )
+				.put("eventId", event.getIdEvent())
+				.put("message", message)
+				.put("createdAt", createdAt)
 				.toString();
 	}
 
