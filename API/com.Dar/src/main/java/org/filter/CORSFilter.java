@@ -22,7 +22,7 @@ public class CORSFilter implements Filter {
 		HttpServletResponse httpResp = (HttpServletResponse) response;
 		httpResp.addHeader("Access-Control-Allow-Origin", "*");
 		httpResp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS, DELETE");
-		httpResp.addHeader("Access-Control-Allow-Headers", "Content-Type, autorization");
+		httpResp.addHeader("Access-Control-Allow-Headers", "Content-Type, autorization, x-auth-token");
 		httpResp.addHeader("Access-Control-Max-Age", "86400");
 		
         filterChain.doFilter(request, response);
