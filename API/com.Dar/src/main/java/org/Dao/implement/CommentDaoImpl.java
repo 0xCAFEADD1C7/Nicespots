@@ -6,7 +6,6 @@ import org.Dao.DaoImpl;
 import org.Dao.interfaces.CommentDao;
 import org.Entite.Comment;
 import org.Entite.Event;
-import org.Entite.Spot;
 import org.Entite.User;
 
 public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
