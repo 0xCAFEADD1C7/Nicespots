@@ -73,7 +73,7 @@ public abstract class DaoImpl<T> implements GenericDao<T> {
 	public List<T> getAll() {
 		Session session = getSession();
 		session.beginTransaction();
-
+			System.out.println("Class Name " +klassName);
 		Query<T> q = query("from "+klassName);
 		List<T> list = q.list();
 

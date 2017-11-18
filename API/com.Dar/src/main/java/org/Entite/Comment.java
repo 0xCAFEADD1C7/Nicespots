@@ -88,6 +88,7 @@ public class Comment implements JSONable {
 				.put("poster pseudo ",poster.getPseudo() )
 				.put("evenement", event.getIdEvent())
 				.put("Date de creation", createdAt )
+				.put("message",this.message)
 				.toString();
 	}
 

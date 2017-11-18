@@ -19,7 +19,9 @@ public class CommentServlet extends SimpleAbstractServlet<Comment> {
 
     public CommentServlet() {
         super();
+
         klass = Comment.class;
+        
     }
 
 	@Override

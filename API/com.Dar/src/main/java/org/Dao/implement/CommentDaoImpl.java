@@ -6,9 +6,17 @@ import org.Dao.DaoImpl;
 import org.Dao.interfaces.CommentDao;
 import org.Entite.Comment;
 import org.Entite.Event;
+import org.Entite.Spot;
 import org.Entite.User;
 
 public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
+	
+	public CommentDaoImpl () {
+		super();
+		
+		this.klass = Comment.class;
+		this.klassName = "Comment";
+	}
 
 	public List<Comment> getCommentsByUser(User user) {
 		return getAllBy("user", user.getIdUser());
