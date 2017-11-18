@@ -1,5 +1,2 @@
-<<<<<<< HEAD
-/target/
-=======
-/bin/
->>>>>>> ade5ce18d40ebd4fb924caa312cee4b179485f17
+target/
+bin/
