@@ -32,7 +32,9 @@ public class SpotReviewServlet extends SimpleAbstractServlet<SpotReview> {
 			Map<String, Object> collect = collectInfos(request);
 			collect.put("spotId", spotId);
 			obj.fromJson(body, collect);
+
 			getDAO().add(obj);
+
 		} catch (Exception e) {
 			throw e;
 		}

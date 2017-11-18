@@ -127,8 +127,10 @@ public class SpotReview implements JSONable {
 	    if(spot == null) {
 	    	throw new Exception("Spot ID Not Valid");
 	    }
-		
+		if(((int)infos.get("userId"))!= spot.getCreator().getIdUser())
 	    user = DAOFactory.getUser().getById((int)infos.get("userId"));
+		else
+			user = spot.getCreator();
 	    createdAt = new Date();
 	}
 }

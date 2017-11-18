@@ -13,7 +13,7 @@ public class SpotReviewDaoImpl extends DaoImpl<SpotReview> implements SpotReview
         super();
         
         this.klass = SpotReview.class;
-        this.klassName = "Comment";
+        this.klassName = "SpotReview";
     }
 
 	public List<SpotReview> getSpotsReviewBySpot(Spot spot) {
