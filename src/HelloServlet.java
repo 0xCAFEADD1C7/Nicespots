@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.* ;
 
-public class HelloServlet extends GenericServlet
-{
+public class HelloServlet extends GenericServlet {
+	private static final long serialVersionUID = 1L;
+
 	public void service (HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {

@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WeatherApiClient {
-	//private static final String meteokey = "ee00446ef1fe8a54ea3f6a995144ebdc";	//TODO TEST IN 10MIN
 	private static final String meteokey = "b1b15e88fa797225412429c1c50c122a1";
 	
 	/**
@@ -47,8 +46,6 @@ public class WeatherApiClient {
 		
 		return meteoJson.getJSONArray("list").getJSONObject(index).getJSONArray("weather")
 				.getJSONObject(0).getString("main");
-		
-		//return (String)meteoJson.query("/list/" + Integer.toString(index) + "/weather/0/main");
 	}
 	
 	/**
