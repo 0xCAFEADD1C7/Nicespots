@@ -1,5 +1,7 @@
 package org.Entite;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -91,13 +93,14 @@ public class Event implements JSONable {
 	}
 
 	public String toJson() throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 		return new JSONObject()
 				.put("id", idEvent)
 				.put("name", name)
 				.put("description", description)
 				.put("creator", new JSONObject(creator.toJson()))
 				.put("spot", new JSONObject(spot.toJson()))
-				.put("date", date)
+				.put("date", df.format(date))
 				.toString();
 	}
 	
