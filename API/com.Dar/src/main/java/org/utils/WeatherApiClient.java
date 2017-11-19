@@ -32,7 +32,7 @@ public class WeatherApiClient {
 	 */
 	public static String getWeather(double lat, double lon, int index) throws Exception {
 		if (index < 0 || index > 40) {
-			throw new Exception("Index not in range");
+			return("Index not in range");
 		}
 		String url = "http://openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=";
 		url += meteokey;

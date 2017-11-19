@@ -159,5 +159,7 @@ public class Spot implements JSONable {
 		int creatorId = (int) infos.get("userId");
 		creator = DAOFactory.getUser().getById(creatorId);
 	}
+	
+	
 
 }

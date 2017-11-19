@@ -1,9 +1,11 @@
 package org.Entite;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +20,7 @@ import org.exceptions.NotFoundException;
 import org.json.JSONObject;
 import org.utils.DAOFactory;
 import org.utils.JSONable;
+import org.utils.WeatherApiClient;
 
 @Entity
 @Table(name="event")
@@ -93,6 +96,9 @@ public class Event implements JSONable {
 	}
 
 	public String toJson() throws Exception {
+		
+		String weather = WeatherApiClient.getWeather(spot.getLatitude(),spot.getLongitude(),date.getDay(),date.getHours());
+		
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 		return new JSONObject()
 				.put("id", idEvent)
@@ -101,13 +107,16 @@ public class Event implements JSONable {
 				.put("creator", new JSONObject(creator.toJson()))
 				.put("spot", new JSONObject(spot.toJson()))
 				.put("date", df.format(date))
+				.put("eventDayWeather",weather)
 				.toString();
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
         name = body.getString("name");
         description = body.getString("description");
-        date = new Date(body.getInt("date"));
+        date = df.parse(body.getString("date"));
         
         int spotId = body.getInt("spot");
         spot = DAOFactory.getSpot().getById(spotId);
@@ -122,4 +131,13 @@ public class Event implements JSONable {
         System.out.println("CREATOR :"+creator+ " - " + creatorId);
         System.out.println("SPOT :"+spot);
     }
+	
+	 private  int remainingDays(){
+	        	        
+	            long diff = this.getDate().getTime() - new Date().getTime();
+	            int df = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	            System.out.println(df);
+	            return df;
+	       
+	    }
 }
