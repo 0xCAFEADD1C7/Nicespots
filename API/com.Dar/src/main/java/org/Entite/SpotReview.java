@@ -109,7 +109,7 @@ public class SpotReview implements JSONable {
 	public String toJson() throws Exception {
 		return new JSONObject()
 				.put("id", idReview)
-				.put("author", user.getPseudo())
+				.put("pseudo", user.getPseudo())
 				.put("spotId", spot.getIdSpot())
 				.put("review", review)
 				.put("rating", rating)
