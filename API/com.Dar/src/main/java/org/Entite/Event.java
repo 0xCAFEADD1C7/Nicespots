@@ -1,9 +1,6 @@
 package org.Entite;
 
 import java.text.DateFormat;
-
-import java.text.ParseException;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -87,43 +84,30 @@ public class Event implements JSONable {
 		this.creator = creator;
 	}
 
-	public String getDate() {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		return df.format(date);
+	public Date getDate() {
+		return date;
 	}
 
-	public void setDate(String date) {
-		
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date dd=null;
-		try {
-			dd = df.parse(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		this.date = dd;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String toJson() throws Exception {
-		//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 		return new JSONObject()
 				.put("id", idEvent)
 				.put("name", name)
 				.put("description", description)
 				.put("creator", new JSONObject(creator.toJson()))
 				.put("spot", new JSONObject(spot.toJson()))
-
-				.put("date", getDate())
-
+				.put("date", df.format(date))
 				.toString();
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
         name = body.getString("name");
         description = body.getString("description");
-         this.setDate(body.getString("date"));
+        date = new Date(body.getInt("date"));
         
         int spotId = body.getInt("spot");
         spot = DAOFactory.getSpot().getById(spotId);
