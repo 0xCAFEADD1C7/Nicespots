@@ -1,5 +1,8 @@
 package org.Entite;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -82,12 +85,23 @@ public class Event implements JSONable {
 		this.creator = creator;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDate() {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return df.format(date);
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(String date) {
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date dd=null;
+		try {
+			dd = df.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.date = dd;
 	}
 
 	public String toJson() throws Exception {
@@ -97,14 +111,14 @@ public class Event implements JSONable {
 				.put("description", description)
 				.put("creator", new JSONObject(creator.toJson()))
 				.put("spot", new JSONObject(spot.toJson()))
-				.put("date", date)
+				.put("date", getDate())
 				.toString();
 	}
 	
 	public void fromJson(JSONObject body, Map<String,Object> infos) throws Exception {
         name = body.getString("name");
         description = body.getString("description");
-        date = new Date(body.getInt("date"));
+         this.setDate(body.getString("date"));
         
         int spotId = body.getInt("spot");
         spot = DAOFactory.getSpot().getById(spotId);
