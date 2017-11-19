@@ -21,6 +21,9 @@ import org.json.JSONObject;
 import org.utils.DAOFactory;
 import org.utils.JSONUtil;
 import org.utils.JSONable;
+import org.utils.MapApiClient;
+import org.utils.TransporationFinder;
+import org.utils.WeatherApiClient;
 
 
 @Entity
@@ -123,6 +126,9 @@ public class Spot implements JSONable {
 	}
 	
 	public String toJson() throws Exception {
+		
+		String weather = WeatherApiClient.getWeather(latitude, longitude, 1);
+		String transport = TransporationFinder.getInstance().getNearest((double)latitude,(double)longitude);
 		return new JSONObject()
 				.put("id", idSpot)
 				.put("name", name)
@@ -131,6 +137,9 @@ public class Spot implements JSONable {
 				.put("latitude",latitude)
 				.put("images", images)
 				.put("activities", activities)
+				.put("address", address)
+				.put("weather", weather)
+				.put("transport",transport)
 				.toString();	
 	}
 	
@@ -140,7 +149,8 @@ public class Spot implements JSONable {
 		longitude = Float.parseFloat(body.getString("longitude"));
 		latitude = Float.parseFloat(body.getString("latitude"));
 		// TODO address = ...
-		
+		address = MapApiClient.getAddress(latitude, longitude);
+
 		// TODO images on POST ?
 		// images = JSONUtil.getStringArray(body, "images");
 		images = new HashSet<>();
