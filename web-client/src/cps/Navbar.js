@@ -6,10 +6,14 @@ import React, { Component } from 'react';
 
 import { Navbar as BNavbar } from 'react-bootstrap';
 
+import { connect } from 'react-redux';
+
 import SearchInput from './SearchInput'
 import AccountBtn from './AccoutBtn'
+import { viewPage } from '../lib/actions';
+import { ACTIONS } from '../lib/constants';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   render() {
     return (
       <BNavbar fluid>
@@ -24,7 +28,7 @@ export default class Navbar extends Component {
           </BNavbar.Header>
           <BNavbar.Collapse>
             <ul className="nav navbar-nav">
-              <li className="active"><a href="/#">Home</a></li>
+              <li className="active"><a href="/#" onClick={this.props.onGoHome}>Home</a></li>
             </ul>
             <SearchInput />
             <ul className="nav navbar-nav navbar-right">
@@ -36,3 +40,13 @@ export default class Navbar extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onGoHome : () => {
+      dispatch(viewPage(ACTIONS.GoHome));
+    }
+  }
+}
+
+export default connect(x=>x, mapDispatchToProps)(Navbar);
