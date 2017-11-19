@@ -1,5 +1,7 @@
 package org.Entite;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -107,13 +109,14 @@ public class SpotReview implements JSONable {
 
 
 	public String toJson() throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 		return new JSONObject()
 				.put("id", idReview)
 				.put("pseudo", user.getPseudo())
 				.put("spotId", spot.getIdSpot())
 				.put("review", review)
 				.put("rating", rating)
-				.put("createdAt", createdAt)
+				.put("createdAt", df.format(createdAt))
 				.toString();	
 	}
 
