@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import md5 from 'blueimp-md5';
 
 function PrettyLabel({value}) {
-  const styles = ["success", "info", "warning", "danger", "defaut"]
+  const styles = ["success", "info", "warning", "danger", "default"]
   const hash = parseInt(md5(value), 16);
   const style = styles[hash % styles.length];
   return <Label bsStyle={style}>{value}</Label>
@@ -32,8 +32,9 @@ class SpotView extends Component {
     return (
       <Panel header={header}>
         <p>Adresse : {this.props.address}</p>
-        <p>Meteo actuelle : {this.props.currentWeather}</p>
+        <p>Meteo actuelle : {this.props.weather}</p>
         <p>Coordonnees : (lng : {this.props.longitude}, lat : {this.props.latitude})</p>
+        <p>Transport le plus proche : {this.props.transport}</p>
         
         <PhotoGallery images={this.props.images}/>
       </Panel>

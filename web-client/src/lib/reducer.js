@@ -16,19 +16,21 @@ function setStateToPage(state, page, stateFieldName, data) {
 export function reducer(state = initialState, action) {
   switch (action.type) {
     case '@@redux/INIT':
-      const savedState = window.localStorage.getItem("STATE");
-      return savedState ? JSON.parse(savedState) : state;
+      const savedToken = window.localStorage.getItem("token");
+      return Object.assign({}, state, {token : savedToken});
 
     case ACTIONS.Login :
+      window.localStorage.setItem("token", action.data);
       return {
         ...state,
-        user : action.data
+        token : action.data
       }
 
-    case ACTIONS.Logout :
+    case ACTIONS.Logout :   
+      window.localStorage.removeItem("token");
       return {
         ...state,
-        user : null
+        token : null
       }
 
     case ACTIONS.ViewEvent :
@@ -45,6 +47,31 @@ export function reducer(state = initialState, action) {
 
     case ACTIONS.GoHome :
       return setStateToPage(state, PAGE.home, "", undefined);
+
+    case ACTIONS.SetComments :
+      return { 
+        ...state, 
+        comments : action.data,
+      }
+
+    case ACTIONS.SetReviews :
+      return { 
+        ...state, 
+        reviews : action.data,
+      }
+
+    case ACTIONS.AddComment :
+      const comments = state.comments || []
+      return {
+        ...state,
+        comments : comments.concat([action.data])
+      }
+    
+    case ACTIONS.AddReview :
+      return {
+        ...state,
+        reviews : state.reviews.concat([action.data])
+      }
 
     default :
       console.log("WARNING : no handler for action type = "+action.type);

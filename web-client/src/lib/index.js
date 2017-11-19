@@ -1,21 +1,35 @@
 import axios from "axios";
 
-const api = axios.create({
-  // baseURL : 'http://localhost:8080/',
+import querystring from 'querystring';
+
+export const api = axios.create({
+  baseURL : 'http://localhost:8080/com.Dar/',
   // baseURL : 'http://172.20.10.2:8080/com.Dar/',
-  baseURL : "http://localhost:4000",
+  // baseURL : "http://localhost:4000",
 })
+
+api.interceptors.request.use((config) => {
+  return Object.assign({}, config, {
+    headers : {
+      "x-auth-token" : window.localStorage.getItem('token')
+    }
+  })
+}, function (error) {
+  alert("Erreur : "+error.message);
+  // Do something with request error
+  return Promise.reject(error);
+});
 
 /**
  * Send login data and retrieves the auth token
- * @param {string} email email of user
- * @param {string} pass password (in plain text) of user
+ * @param {string} mail email of user
+ * @param {string} password password (in plain text) of user
  * @return {Promise<string>} authentication token
  */
 
-export function login(email, pass) {
+export function login(mail, password) {
   return api.post('/login', {
-    email, pass
+    mail, password
   })
 }
 

@@ -11,12 +11,14 @@ import Comment from './Comment';
 
 export default class ReviewsList extends Component {
   render() {
-    return this.props.reviews.map((review) => {
-      console.log("REVIEW ", review)
+    const reviews = this.props.reviews;
+    return (!reviews || reviews.length === 0)
+    ? <p>Aucun avis sur cet endroit... Soyez le premier a en donner !</p>
+    : reviews.map((review) => {
       return <Comment 
-        author={review.author}
+        author={review.pseudo}
         message={review.review}
-        avatar={""}
+        avatar={"img/avatar1.png"}
         postDate={review.createdAt}
         mark={review.rating}
         key={review.id}

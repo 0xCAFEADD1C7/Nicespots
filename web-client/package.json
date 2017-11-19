@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "0.16.0",
     "blueimp-md5": "^2.10.0",
     "bootstrap": "^3.3.7",
+    "google-map-react": "^0.25.0",
     "prop-types": "^15.6.0",
+    "querystring": "^0.2.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",

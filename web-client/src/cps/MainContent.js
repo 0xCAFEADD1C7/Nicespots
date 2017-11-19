@@ -28,7 +28,10 @@ class MainContent extends Component {
 
   renderPage = () => {
     switch (this.props.page) {
-      case PAGE.home : return <span>PAS ENCORE FAIT</span>
+      case PAGE.home : return <div>
+        <h2>Bienvenue !</h2>
+        <p>Le but de ce site est de faire découvrir des endroits sympas, via le partage communautaire. Vous pouvez partager des lieux qui vous plaisent, ainsi qu'organiser des évenements (activités sportives, visites, ...) pour profiter à plusieurs de ces endroits :)</p> 
+      </div>
       case PAGE.event : return <EventPage />
       case PAGE.spot : return <SpotPage />
       case PAGE.listEvents : return <EventsPage />

@@ -8,4 +8,8 @@ export const ACTIONS = {
   ViewEvent : "VIEWEVENT",
   ViewEvents : "VIEWEVENTS",
   GoHome : "GOHOME",
+  SetReviews : "SETREVIEWS",
+  SetComments : "SETCOMMENTS",
+  AddReview : "ADDREVIEW",
+  AddComment : "ADDCOMMENT",
 }

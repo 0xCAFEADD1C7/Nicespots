@@ -5,7 +5,7 @@ import './App.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { EventCRUD } from '../lib';
+import { EventCRUD, api } from '../lib';
 import { viewPage } from '../lib/actions';
 import { ACTIONS } from '../lib/constants';
 
@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 function EventList({list, clickHandler}) {
   return list.map(event => <Well key={event.id} onClick={() => clickHandler(event.id)}>
-    <h3>{event.name} <small>par {event.creator.pseudo}, {event.spot.name}</small></h3>
+    <h3>{event.name} <small>par {event.pseudo}, {event.spot.name}</small></h3>
     <p>{event.description}</p>
   </Well>)
 }
@@ -38,6 +38,11 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     onClick : (eventId) => {
+      api.get('comment/'+eventId)
+      .then(res => {
+        dispatch(viewPage(ACTIONS.SetComments, res.data));
+      });
+
       EventCRUD.getOne(eventId)
       .then(data => {
         dispatch(viewPage(ACTIONS.ViewEvent, data));

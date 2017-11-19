@@ -18,6 +18,7 @@ public class MapApiClient {
 		public static String getAddress(double lat, double lon) throws JSONException {
 			String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key=";
 			url += mapkey;
+			System.out.println("URL : "+url);
 			JSONFetcher jf;
 			JSONObject mapJson = null;
 			try {
@@ -29,6 +30,10 @@ public class MapApiClient {
 				e.printStackTrace();
 			}
 			
-			return mapJson.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+			try {
+				return mapJson.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+			} catch(Exception e) { // surement aucun résultat...
+				return "";
+			}
 		}
 }

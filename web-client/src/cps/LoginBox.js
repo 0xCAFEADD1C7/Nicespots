@@ -7,10 +7,13 @@ import React, { Component } from 'react';
 
 import { Button } from 'react-bootstrap';
 
-import { login } from '../lib';
-// import Actions from '../lib/actions';
+import { login, UserCRUD } from '../lib';
+import { ACTIONS } from '../lib/constants';
 
 import { connect } from 'react-redux';
+
+import Form from './Form';
+import CreateAccount from './CreateAccount';
 
 // function loggedInAction(user) {
 //   return {
@@ -19,48 +22,68 @@ import { connect } from 'react-redux';
 //   }
 // }
 
-class LoginBox extends Component {
-  handleChange = (e) => {
-    const elName = e.target.name;
-    const elValue = e.target.value;
-    
-    this.setState({
-      [elName] : elValue,
-    })
-  }
-
-  handleSubmit = (e) => {
-    login(this.state.email, this.state.password)
-    .then((token) => {
-      alert(JSON.stringify(token.data, null, 3));
-    })
-    .catch(e => console.error("Erreur submit :", e));
-  }
-
-  render() {
-    return (
-      <form className="login-box" onSubmit={(e) => { this.handleSubmit(); e.preventDefault(); }} onChange={this.handleChange}>
-        <input type="email" name="mail" className="form-control" placeholder="Adresse email"/>
-        <input type="password" name="password" className="form-control" placeholder="Pass"/>
-        <Button type="submit" bsStyle="success" className="form-control">Me connecter !</Button>
-      </form>
-    )
-  }
+function LoginForm({onSubmit}) {
+  const props = {
+    fields : [{
+      name: "mail",
+      type: "email",
+      text: "Mail"
+    }, {
+      name: "password",
+      type: "password",
+      text: "Mot de passe"
+    }],
+    submitText : "Connexion",
+    usePlaceHolder: true,
+    onSubmit,
+  } 
+  return <Form {... props}/>
 }
 
-LoginBox.propTypes = {
-  
+
+class LoginBox extends Component {
+  render() {
+    if (this.props.isLoggedIn) {
+      return <a onClick={this.props.onLogout}>Se deconnecter</a>;
+    } else {
+      return <div>
+        <LoginForm onSubmit={this.props.onLogin}/>
+        <CreateAccount onSubmit={this.props.onCreateAccount}/>
+      </div>
+    }
+  }
 }
 
 function mapStateToProps(state) {
-  alert("MapStateToProps "+state);
   return {
-    user: state.user
+    isLoggedIn: !!state.token
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  alert("MapStateToProps "+dispatch);
+  return {
+    onLogin : (data) => {
+      login(data.mail, data.password)
+      .then(res => {
+        const token = res.data.token;
+        dispatch({
+          type : ACTIONS.Login,
+          data : token,
+        })
+      })
+      .catch(alert);
+    },
+
+    onLogout : (data) => {
+      dispatch({
+        type : ACTIONS.Logout
+      })
+    },
+
+    onCreateAccount : (data) => {
+      
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginBox)
